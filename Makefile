@@ -14,14 +14,14 @@ clean:
 install: all
 ifeq ($(PS2SDK),)
 	@echo "$PS2SDK is not set. Can not install libntfs."
-	@echo "$PS2SDK não está instalado. Não pode instalar o libntfs."
 	@exit 1
 endif
 	@echo Copying...
 	@[ -d $(PS2SDK)/iop/include/ntfs] || mkdir -p $(PS2SDK)/iop/include/ntfs
-	@cp -frv /..include/ntfs.h $(PS2SDK)/iop/include/ntfs
+	@cp -frv /include/ntfs.h || $(PS2SDK)/iop/include/ntfs
 	@cp -frv *.a $(PS2SDK)/iop/lib
 	@echo Done!
+
 
 include $(PS2SDK)/Defs.make
 include $(PS2SDK)/samples/Makefile.pref

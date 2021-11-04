@@ -18,14 +18,21 @@
  */
 
 #include <bdm.h>
+#include <stdbool.h>
+
 
 #define MX4SIO
 #define ILink
 #define USB
+u8 read;	
+u32 write;
+float flush;
+bool stop;
 
 
-unsigned bool bdmntfs(*read) (struct bdmdevice *MX4SIO, struct bdmdevice *ILink, struct bdmdevice *USB, u32 sectors_read, u32 sectors);
-unsigned int bdmntfs(*write) (struct bdmdevice *MX4SIO, struct bdmdevice *ILink, struct bdmdevice *USB);
-unsigned void bdmntfs(*flush) (struct bdmdevice *MX4SIO, struct bdmdevice *ILink, struct bdmdevice *USB);
-unsigned int bdmntfs(*stop) (struct bdmedvice *MX4SIO, struct bdmdevice *ILink, struct bdmdevice *USB);
 
+const bool bdmntfsread(struct bdmdevice *MX4SIO, struct bdmdevice *ILink, struct bdmdevice *USB, u32 sectors_read, u32 sectors);
+unsigned int bdmntfswrite(struct bdmdevice *MX4SIO, struct bdmdevice *ILink, struct bdmdevice *USB);
+const void bdmntfsflush(struct bdmdevice *MX4SIO, struct bdmdevice *ILink, struct bdmdevice *USB);
+unsigned int bdmntfs(struct bdmedvice *MX4SIO, struct bdmdevice *ILink, struct bdmdevice *USB);
+unsigned boolean();

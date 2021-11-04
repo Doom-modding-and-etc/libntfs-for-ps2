@@ -18,7 +18,6 @@
  */
 
 #include "bdmdriver.h"
-#include <kernel.h>
 #include <bdm.h>
 #include <stdio.h>
 
