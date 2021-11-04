@@ -1,36 +1,26 @@
 
-default: cube-release wii-release
+IOP_CFLAGS += -Wall -Os -I. -I../include -I../include/ntfs
 
-all: debug release
+IOP_LIB = libntfs.a
+IOP_OBJS =  source/volume.o
 
-debug: cube-debug wii-debug
+all: $(IOP_LIB)
 
-release: cube-release wii-release
+clean:
+	rm -f -r $(IOP_BIN) $(IOP_LIB) $(IOP_OBJS) obj
 
-cube-debug:
-	$(MAKE) -C source PLATFORM=cube BUILD=cube_debug
+install: all
+ifeq ($(PS2SDK),)
+	@echo "$PS2SDK is not set. Can not install libsmb2."
+	@exit 1
+endif
+	@echo Copying...
+	@[ -d $(PS2SDK)/iop/include/ntfs] || mkdir -p $(PS2SDK)/iop/include/ntfs
+	@cp -frv /include/ntfs/*.h $(PS2SDK)/iop/include/smb2
+	@cp -frv *.a $(PS2SDK)/iop/lib
+	@echo Done!
 
-wii-debug:
-	$(MAKE) -C source  PLATFORM=wii BUILD=wii_debug
-
-cube-release:
-	$(MAKE) -C source  PLATFORM=cube BUILD=cube_release
-
-wii-release:
-	$(MAKE) -C source  PLATFORM=wii BUILD=wii_release
-
-clean: 
-	$(MAKE) -C source clean
-
-cube-install: cube-release
-	$(MAKE) -C source cube-install PLATFORM=cube
-
-wii-install: wii-release
-	$(MAKE) -C source wii-install PLATFORM=wii
-
-install: wii-install
-
-run: install
-	$(MAKE) -C example
-	$(MAKE) -C example run
+include $(PS2SDK)/Defs.make
+include $(PS2SDK)/samples/Makefile.pref
+include $(PS2SDK)/samples/Makefile.iopglobal
 
