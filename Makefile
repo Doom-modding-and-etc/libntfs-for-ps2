@@ -14,6 +14,7 @@ clean:
 install: all
 ifeq ($(PS2SDK),)
 	@echo "$PS2SDK is not set. Can not install libntfs."
+	@echo "$PS2SDK não está instalado. Não pode instalar o libntfs."
 	@exit 1
 endif
 	@echo Copying...
