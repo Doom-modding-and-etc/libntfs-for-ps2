@@ -51,9 +51,8 @@ extern "C" {
 #define NTFS_IGNORE_CASE                0x00000040 /* Ignore case sensitivity. Everything must be and  will be provided in lowercase. */
 #define NTFS_SU                         NTFS_SHOW_HIDDEN_FILES | NTFS_SHOW_SYSTEM_FILES
 #define NTFS_FORCE                      NTFS_RECOVER | NTFS_IGNORE_HIBERFILE
-
 sectorSize = 4096;
-unsigned char interface;
+unsigned bool interface;
 
 
 /**
@@ -68,7 +67,8 @@ typedef struct bdm_ntfs_mdblock
     struct block_device **ntfspartitions;
 }
 
-/**
+/*
+ *
  * Find all NTFS partitions on a block device.
  *
  * @param INTERFACE The block device to search

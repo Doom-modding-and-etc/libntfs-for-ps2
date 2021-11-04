@@ -1,8 +1,10 @@
+# LIBNTFS FOR PLAYSTATION 2
+# Copyright (c) 2021 André Guilherme Mendes da luz bastos based on libsmb2 makefile
 
 IOP_CFLAGS += -Wall -Os -I. -I../include -I../include/ntfs
 
 IOP_LIB = libntfs.a
-IOP_OBJS =  source/volume.o
+IOP_OBJS = source/bdmdriver.o
 
 all: $(IOP_LIB)
 
@@ -11,12 +13,12 @@ clean:
 
 install: all
 ifeq ($(PS2SDK),)
-	@echo "$PS2SDK is not set. Can not install libsmb2."
+	@echo "$PS2SDK is not set. Can not install libntfs."
 	@exit 1
 endif
 	@echo Copying...
 	@[ -d $(PS2SDK)/iop/include/ntfs] || mkdir -p $(PS2SDK)/iop/include/ntfs
-	@cp -frv /include/ntfs/*.h $(PS2SDK)/iop/include/smb2
+	@cp -frv /..include/ntfs.h $(PS2SDK)/iop/include/ntfs
 	@cp -frv *.a $(PS2SDK)/iop/lib
 	@echo Done!
 
