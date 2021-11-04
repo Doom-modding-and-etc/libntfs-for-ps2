@@ -1,10 +1,10 @@
 /**
  * ntfs.h - Simple functionality for startup, mounting and unmounting of NTFS-based devices.
- *
+ * Adapted to Playstation 2 
  * Copyright (c) 2010 Dimok
  * Copyright (c) 2009 Rhys "Shareese" Koedijk
  * Copyright (c) 2006 Michael "Chishm" Chisholm
- *
+ * Copyright (c) 2021 André Guilherme Mendes da luz bastos 
  * This program/include file is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as published
  * by the Free Software Foundation; either version 2 of the License, or
@@ -27,9 +27,7 @@
 extern "C" {
 #endif
 
-#include <gctypes.h>
-#include <gccore.h>
-#include <ogc/disc_io.h>
+#include <bdm.h>
 
 /* NTFS errno values */
 #define ENOPART                         3000 /* No partition was found */
@@ -56,11 +54,12 @@ extern "C" {
 /**
  * ntfs_md - NTFS mount descriptor
  */
-typedef struct _ntfs_md {
+typedef struct bdm_ntfs_mdblock 
+{
     char name[32];                      /* Mount name (can be accessed as "name:/") */
     const DISC_INTERFACE *interface;    /* Block device containing the mounted partition */
     sec_t startSector;                  /* Local block address to first sector of partition */
-} ntfs_md;
+}
 
 /**
  * Find all NTFS partitions on a block device.
@@ -71,7 +70,7 @@ typedef struct _ntfs_md {
  * @return The number of entries in PARTITIONS or -1 if an error occurred (see errno)
  * @note The caller is responsible for freeing PARTITIONS when finished with it
  */
-extern int ntfsFindPartitions (const DISC_INTERFACE *interface, sec_t **partitions);
+extern int bdmntfsFindPartitions(const DISC_INTERFACE *interface, sec_t **partitions);
 
 /**
  * Mount all NTFS partitions on all inserted block devices.
@@ -83,7 +82,7 @@ extern int ntfsFindPartitions (const DISC_INTERFACE *interface, sec_t **partitio
  * @note The caller is responsible for freeing MOUNTS when finished with it
  * @note All device caches are setup using default values (see above)
  */
-extern int ntfsMountAll (ntfs_md **mounts, u32 flags);
+extern int bdmntfsMountAll(ntfs_md **mounts, u32 flags);
 
 /**
  * Mount all NTFS partitions on a block devices.
@@ -96,7 +95,7 @@ extern int ntfsMountAll (ntfs_md **mounts, u32 flags);
  * @note The caller is responsible for freeing MOUNTS when finished with it
  * @note The device cache is setup using default values (see above)
  */
-extern int ntfsMountDevice (const DISC_INTERFACE* interface, ntfs_md **mounts, u32 flags);
+extern int ntfsMountDevice(const DISC_INTERFACE* interface, ntfs_md **mounts, u32 flags);
 
 /**
  * Mount a NTFS partition from a specific sector on a block device.
@@ -111,7 +110,7 @@ extern int ntfsMountDevice (const DISC_INTERFACE* interface, ntfs_md **mounts, u
  * @return True if mount was successful, false if no partition was found or an error occurred (see errno)
  * @note ntfsFindPartitions should be used first to locate the partitions start sector
  */
-extern bool ntfsMount (const char *name, const DISC_INTERFACE *interface, sec_t startSector, u32 cachePageCount, u32 cachePageSize, u32 flags);
+extern bool ntfsMount(const char *name, const DISC_INTERFACE *interface, sec_t startSector, u32 cachePageCount, u32 cachePageSize, u32 flags);
 
 /**
  * Unmount a NTFS partition.
@@ -119,7 +118,7 @@ extern bool ntfsMount (const char *name, const DISC_INTERFACE *interface, sec_t 
  * @param NAME The name of mount used in ntfsMountSimple() and ntfsMount()
  * @param FORCE If true unmount even if the device is busy (may lead to data lose)
  */
-extern void ntfsUnmount (const char *name, bool force);
+extern void ntfsUnmount(const char *name, bool force);
 
 /**
  * Get the volume name of a mounted NTFS partition.
@@ -128,7 +127,7 @@ extern void ntfsUnmount (const char *name, bool force);
  *
  * @return The volumes name if successful or NULL if an error occurred (see errno)
  */
-extern const char *ntfsGetVolumeName (const char *name);
+extern const char *ntfsGetVolumeName(const char *name);
 
 /**
  * Set the volume name of a mounted NTFS partition.
@@ -139,7 +138,7 @@ extern const char *ntfsGetVolumeName (const char *name);
  * @return True if mount was successful, false if an error occurred (see errno)
  * @note The mount must be write-enabled else this will fail
  */
-extern bool ntfsSetVolumeName (const char *name, const char *volumeName);
+extern bool ntfsSetVolumeName(const char *name, const char *volumeName);
 
 #ifdef __cplusplus
 }
