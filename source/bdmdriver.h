@@ -18,7 +18,6 @@
  */
 
 #include <bdm.h>
-#include <stdbool.h>
 
 
 #define MX4SIO
@@ -27,12 +26,10 @@
 u8 read;	
 u32 write;
 float flush;
-bool stop;
+char stop;
 
-
-
-const bool bdmntfsread(struct bdmdevice *MX4SIO, struct bdmdevice *ILink, struct bdmdevice *USB, u32 sectors_read, u32 sectors);
-unsigned int bdmntfswrite(struct bdmdevice *MX4SIO, struct bdmdevice *ILink, struct bdmdevice *USB);
+const int bdmntfsread(struct bdmdevice *MX4SIO, struct bdmdevice *ILink, struct bdmdevice *USB, u32 sectors_read, u64 sectors);
+unsigned int bdmntfswrite(struct bdmdevice *MX4SIO, struct bdmdevice *ILink, struct bdmdevice *USB, u32 sectors_write, u64 sectors);
 const void bdmntfsflush(struct bdmdevice *MX4SIO, struct bdmdevice *ILink, struct bdmdevice *USB);
 unsigned int bdmntfs(struct bdmedvice *MX4SIO, struct bdmdevice *ILink, struct bdmdevice *USB);
-unsigned boolean();
+void bdmountntfs(struct bdmedvice *MX4SIO);

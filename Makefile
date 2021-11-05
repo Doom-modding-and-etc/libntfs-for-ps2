@@ -11,15 +11,14 @@ all: $(IOP_LIB)
 clean:
 	rm -f -r $(IOP_BIN) $(IOP_LIB) $(IOP_OBJS) obj
 
-install: all
+install: all clean
 ifeq ($(PS2SDK),)
 	@echo "$PS2SDK is not set. Can not install libntfs."
 	@exit 1
 endif
 	@echo Copying...
-	@[ -d $(PS2SDK)/iop/include/ntfs] || mkdir -p $(PS2SDK)/iop/include/ntfs
-	@cp -frv /include/ntfs.h || $(PS2SDK)/iop/include/ntfs
-	@cp -frv *.a $(PS2SDK)/iop/lib
+	cp -r ntfs.h  $(PS2SDK)/iop/include/
+	cp -f $(IOP_LIB) $(PS2SDK)/iop/lib
 	@echo Done!
 
 
