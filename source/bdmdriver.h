@@ -18,18 +18,32 @@
  */
 
 #include <bdm.h>
-
+#include <irx.h>
+#include <types.h>
+#include <stdio.h>
 
 #define MX4SIO
 #define ILink
 #define USB
-u8 read;	
-u32 write;
-float flush;
-char stop;
 
-const int bdmntfsread(struct bdmdevice *MX4SIO, struct bdmdevice *ILink, struct bdmdevice *USB, u32 sectors_read, u64 sectors);
-unsigned int bdmntfswrite(struct bdmdevice *MX4SIO, struct bdmdevice *ILink, struct bdmdevice *USB, u32 sectors_write, u64 sectors);
-const void bdmntfsflush(struct bdmdevice *MX4SIO, struct bdmdevice *ILink, struct bdmdevice *USB);
-unsigned int bdmntfs(struct bdmedvice *MX4SIO, struct bdmdevice *ILink, struct bdmdevice *USB);
-void bdmountntfs(struct bdmedvice *MX4SIO);
+struct bdmdevice
+{
+   MX4SIO
+   ILink
+   USB
+};
+
+const int bdmntfsread(u32 sectors_read, u64 sectors);
+unsigned int bdmntfswrite(u32 sectors_write, u64 sectors);
+const void bdmntfsflush();
+unsigned int bdmntfs();
+void bdmountntfs(u32 start_sectors);
+void ummountntfs(u8 stop_sectors);
+unsigned int connect_bdm(u32 sectors_read, u32 sectors_write, struct bdmdevice *MX4SIO, struct bdmdevice *ILink, struct bdmdevice *USB, u8 ntfs);
+unsigned int disconnect_bdm(void sectors_stop);
+
+#define bdm_connect_ntfspartition DECLARE_IMPORT(4, bdm_connect_ntfspartition)
+#define I_bdm_disconnect_ntfspartition DECLARE_IMPORT(5, bdm_disconnect_bd)
+#define bdmount_ntfs DECLARE_IMPORT(6, bdmount_ntfs)
+#define ummount_ntfs DECLARE_IMPORT(7, ummount_ntfs)
+#define I_bdm_get_bdntfs DECLARE_IMPORT(8, bdm_get_bdntfs)

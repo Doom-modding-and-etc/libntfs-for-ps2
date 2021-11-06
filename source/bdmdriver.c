@@ -21,3 +21,15 @@
 #include <bdm.h>
 #include <stdio.h>
 
+struct bdm_ntfs
+{
+     struct block_device* bd;
+     struct file_system* ntfs;
+};
+  
+const int bdmntfsread(u32 sectors_read, u64 sectors)
+{
+
+
+
+};
