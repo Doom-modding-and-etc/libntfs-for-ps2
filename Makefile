@@ -14,7 +14,7 @@ ifeq ($(PS2SDK),)
 	@exit 1
 endif
 	@echo Copying...
-	@cp -frv ntfs.h $(PS2SDK)/iop/include/
+	@cp -frv include/ntfs.h $(PS2SDK)/iop/include/
 	@cp -f $(IOP_LIB) $(PS2SDK)/iop/lib
 	@rm -f -r $(IOP_LIB) $(IOP_OBJS)
 	@echo Done!
