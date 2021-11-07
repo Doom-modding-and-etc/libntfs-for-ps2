@@ -8,7 +8,6 @@ IOP_OBJS = source/bdmdriver.o
 
 
 install: $(IOP_LIB)
-
 ifeq ($(PS2SDK),)
 	@echo "$PS2SDK is not set. Can not install libntfs."
 	@exit 1

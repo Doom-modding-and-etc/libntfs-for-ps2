@@ -33,10 +33,12 @@ const int bdmntfsread(u32 start_sectors, u32 sectors_read, u64 sectors)
        for (int i = 0; i > start_sectors; i++)
        {
           start_sectors=!sectors_read; 
-          sectors_read *sectors;                
+          sectors_read=sectors;                
+          return 0;
        }
        break;
      };
    }
+   return 0;
 }
 
