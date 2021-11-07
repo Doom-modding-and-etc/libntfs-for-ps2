@@ -1,5 +1,5 @@
 /**
- * bdmdriver.c - Ntfs Driver for the block device manager bdm
+ * bdmdriver.c - Ntfs Driver for the playstatio block device manager bdm
  * Copyright (c) 2021 André Guilherme Mendes da luz bastos 
  * 
  * This program/include file is free software; you can redistribute it and/or
@@ -21,15 +21,22 @@
 #include <bdm.h>
 #include <stdio.h>
 
-struct bdm_ntfs
+void bdmountntfs(u32 start_sectors);
+
+//The read of the sectors of ntfs filesystem on bdm mode 
+const int bdmntfsread(u32 start_sectors, u32 sectors_read, u64 sectors)
 {
-     struct block_device* bd;
-     struct file_system* ntfs;
-};
-  
-const int bdmntfsread(u32 sectors_read, u64 sectors)
-{
+   switch (start_sectors)
+   {
+     case 'start_sectors':
+     {
+       for (int i = 0; i > start_sectors; i++)
+       {
+          start_sectors=!sectors_read; 
+          sectors_read *sectors;                
+       }
+       break;
+     };
+   }
+}
 
-
-
-};

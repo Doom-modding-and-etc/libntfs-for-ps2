@@ -13,7 +13,6 @@
         "[0-9]*.config": "javascript",
         "[0-9]*.model": "javascript",
         "[0-9]*.view": "javascript",
-        "*.bms": "quickbms",
         "deh_main.h": "c",
         "string_view": "c",
         "kernel.h": "c"

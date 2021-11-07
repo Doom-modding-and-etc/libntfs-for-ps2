@@ -21,26 +21,17 @@
 #include <irx.h>
 #include <types.h>
 #include <stdio.h>
-
 #define MX4SIO
-#define ILink
+#define ILink 
 #define USB
 
-struct bdmdevice
-{
-   MX4SIO
-   ILink
-   USB
-};
-
-const int bdmntfsread(u32 sectors_read, u64 sectors);
 unsigned int bdmntfswrite(u32 sectors_write, u64 sectors);
-const void bdmntfsflush();
-unsigned int bdmntfs();
+unsigned int bdmntfs(u32 *mount_ntfs);
 void bdmountntfs(u32 start_sectors);
-void ummountntfs(u8 stop_sectors);
-unsigned int connect_bdm(u32 sectors_read, u32 sectors_write, struct bdmdevice *MX4SIO, struct bdmdevice *ILink, struct bdmdevice *USB, u8 ntfs);
-unsigned int disconnect_bdm(void sectors_stop);
+void ummountntfs(u8 stop_sectors, s64 stop_sectors_read, u32 stop_write);
+unsigned int connect_bdm(u32 sectors_read, u32 sectors_write, u8 ntfs);
+unsigned int disconnect_bdm();
+void sectors_stop();
 
 #define bdm_connect_ntfspartition DECLARE_IMPORT(4, bdm_connect_ntfspartition)
 #define I_bdm_disconnect_ntfspartition DECLARE_IMPORT(5, bdm_disconnect_bd)
