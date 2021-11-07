@@ -36,7 +36,7 @@ Make sure you have [PS2DEV ENVIROMENT](https://github.com/ps2dev/ps2dev).
 Then type:
 
 ````bash
- make all install   
+ make install   
 ````
 
 ## Usage
