@@ -37,4 +37,4 @@
 #endif /* __CYGWIN32__ */
 
 #endif /* NO_NTFS_DEVICE_DEFAULT_IO_OPS */
-#endif /* GEKKO */
+#endif /* BLOCK DEVICE MANAGER */

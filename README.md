@@ -31,16 +31,6 @@ The project has been funded, supported and maintained since 2008 by Tuxera:
 ```
 https://tuxera.com
 ```
-## LICENSES
-
-All the NTFS related components: the file system drivers, the ntfsprogs
-utilities and the shared library libntfs-3g are distributed under the terms
-of the GNU General Public License as published by the Free Software
-Foundation; either version 2 of the License, or (at your option) any later
-version. See the included file COPYING.
-
-The fuse-lite library is distributed under the terms of the GNU LGPLv2.
-See the included file COPYING.LIB.
 
 ## Compiling and Installing
 
@@ -71,4 +61,5 @@ For a more practical example of using NTFS in your application,
 see the included `example` directory.
 
 ## TO DO:
-add examples for how to do and continue porting the library itself
+
+add examples how to dom, continue porting the library itself and add EE_CORE(Emotion Engine) support.
