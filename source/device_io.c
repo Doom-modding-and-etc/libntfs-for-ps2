@@ -21,7 +21,7 @@
 
 #include "config.h"
 
-#ifndef GEKKO
+#ifndef BLOCK_DEVICE_MANAGER
 #ifndef NO_NTFS_DEVICE_DEFAULT_IO_OPS
 
 #ifndef __CYGWIN32__

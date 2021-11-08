@@ -1,9 +1,10 @@
 /*
- * compat.h - Tweaks for Windows compatibility.
+ * compat.h - Tweaks for compatibility with non-Linux systems.
  *
  * Copyright (c) 2002 Richard Russon
  * Copyright (c) 2002-2004 Anton Altaparmakov
  * Copyright (c) 2008-2009 Szabolcs Szakacsits
+ * Copyright (c) 2019      Jean-Pierre Andre
  *
  * This program/include file is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as published
@@ -37,6 +38,24 @@
 #define ENODATA ENOENT
 #endif
 
+#ifndef ELIBBAD
+#define ELIBBAD ENOEXEC
+#endif
+
+#ifndef ELIBACC
+#define ELIBACC ENOENT
+#endif
+
+/* xattr APIs in macOS differs from Linux ones in that they expect the special
+ * error code ENOATTR to be returned when an attribute cannot be found. So
+ * define NTFS_NOXATTR_ERRNO to the appropriate "no xattr found" errno value for
+ * the platform. */
+#if defined(__APPLE__) || defined(__DARWIN__)
+#define NTFS_NOXATTR_ERRNO ENOATTR
+#else
+#define NTFS_NOXATTR_ERRNO ENODATA
+#endif
+
 #ifndef PATH_MAX
 #define PATH_MAX 4096
 #endif
@@ -68,23 +87,6 @@ extern char *strsep(char **stringp, const char *delim);
 #ifndef O_BINARY
 #define O_BINARY		0		/* unix is binary by default */
 #endif
-
-#ifdef GEKKO
-
-#include "mem_allocate.h"
-
-#define XATTR_CREATE 1 
-#define XATTR_REPLACE 2
-
-#define MINORBITS       20
-#define MINORMASK       ((1U << MINORBITS) - 1)
-
-#define major(dev)      ((unsigned int) ((dev) >> MINORBITS))
-#define minor(dev)      ((unsigned int) ((dev) & MINORMASK))
-#define mkdev(ma,mi)    (((ma) << MINORBITS) | (mi)) 
-#define random          rand
-
-#endif /* defined GEKKO */
 
 #endif /* defined WINDOWS */
 

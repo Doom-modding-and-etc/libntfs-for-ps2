@@ -1,34 +1,46 @@
-## Introduction
+## INTRODUCTION
 
 The NTFS-3G driver is an open source, freely available read/write NTFS driver
-for Linux, FreeBSD, Mac OS X, NetBSD, Solaris and Haiku. It provides safe and
-fast handling of the Windows XP, Windows Server 2003, Windows 2000, Windows
-Vista, and Windows Server 2008 file systems.
+for Linux, FreeBSD, macOS, NetBSD, OpenIndiana, QNX and Haiku. It provides
+safe and fast handling of the Windows XP, Windows Server 2003, Windows 2000,
+Windows Vista, Windows Server 2008, Windows 7, Windows 8, Windows Server 2012,
+Windows Server 2016, Windows 10 and Windows Server 2019 NTFS file systems.
 
-The purpose of the project is to develop, continuously quality test and
-support a trustable, featureful and high performance solution for hardware
-platforms and operating systems whose users need to reliably interoperate
-with NTFS. Besides this practical goal, the project also aims to explore
-the limits of the hybrid, kernel/user space filesystem driver approach,
-performance, reliability and feature richness per invested effort wise.
+The purpose of the project is to develop, quality assurance and support a
+trustable, featureful and high performance solution for hardware platforms
+and operating systems whose users need to reliably interoperate with NTFS.
+Besides this practical goal, the project also aims to explore the limits
+of the hybrid, kernel/user space filesystem driver approach, performance,
+reliability and feature richness per invested effort wise.
 
-The driver is in STABLE status. The test methods, the test suites used
-can be found at
-
-```
-http://ntfs-3g.org/quality.html
-```
+Besides the common file system features, NTFS-3G has support for file
+ownership and permissions, POSIX ACLs, junction points, extended attributes
+and creating internally compressed files (parameter files in the directory
+.NTFS-3G may be required to enable them). The new compressed file formats
+available in Windows 10 can also be read through a plugin.
 
 News, support answers, problem submission instructions, support and discussion
-forums, performance numbers and other information are available on the project
-web site at
+forums, and other information are available on the project web site at
 
 ```
-http://ntfs-3g.org
+https://github.com/tuxera/ntfs-3g/wiki
 ```
 
-For more details on the NTFS-3G project see the 'original' folder included
-with this package.
+The project has been funded, supported and maintained since 2008 by Tuxera:
+
+```
+https://tuxera.com
+```
+## LICENSES
+
+All the NTFS related components: the file system drivers, the ntfsprogs
+utilities and the shared library libntfs-3g are distributed under the terms
+of the GNU General Public License as published by the Free Software
+Foundation; either version 2 of the License, or (at your option) any later
+version. See the included file COPYING.
+
+The fuse-lite library is distributed under the terms of the GNU LGPLv2.
+See the included file COPYING.LIB.
 
 ## Compiling and Installing
 
@@ -59,5 +71,4 @@ For a more practical example of using NTFS in your application,
 see the included `example` directory.
 
 ## TO DO:
-
-add examples how to do and continue porting the library itself
+add examples for how to do and continue porting the library itself

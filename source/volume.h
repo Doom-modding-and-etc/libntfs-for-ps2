@@ -36,9 +36,7 @@
 #ifdef HAVE_SYS_PARAM_H
 #include <sys/param.h>
 #endif
-#ifdef HAVE_SYS_MOUNT_H
-#include <sys/mount.h>
-#endif
+	/* Do not #include <sys/mount.h> here : conflicts with <linux/fs.h> */
 #ifdef HAVE_MNTENT_H
 #include <mntent.h>
 #endif
@@ -62,6 +60,7 @@ typedef struct _ntfs_volume ntfs_volume;
 enum {
 	NTFS_MNT_NONE                   = 0x00000000,
 	NTFS_MNT_RDONLY                 = 0x00000001,
+	NTFS_MNT_MAY_RDONLY             = 0x02000000, /* Allow fallback to ro */
 	NTFS_MNT_FORENSIC               = 0x04000000, /* No modification during
 	                                               * mount. */
 	NTFS_MNT_EXCLUSIVE              = 0x08000000,
@@ -99,6 +98,11 @@ typedef enum {
 	NTFS_VOLUME_INSECURE		= 22
 } ntfs_volume_status;
 
+typedef enum {
+	NTFS_FILES_INTERIX,
+	NTFS_FILES_WSL,
+} ntfs_volume_special_files;
+
 /**
  * enum ntfs_volume_state_bits -
  *
@@ -113,6 +117,7 @@ typedef enum {
 	NV_HideDotFiles,	/* 1: Set hidden flag on dot files */
 	NV_Compression,		/* 1: allow compression */
 	NV_NoFixupWarn,		/* 1: Do not log fixup errors */
+	NV_FreeSpaceKnown,	/* 1: The free space is now known */
 } ntfs_volume_state_bits;
 
 #define  test_nvol_flag(nv, flag)	 test_bit(NV_##flag, (nv)->state)
@@ -150,6 +155,10 @@ typedef enum {
 #define NVolNoFixupWarn(nv)		 test_nvol_flag(nv, NoFixupWarn)
 #define NVolSetNoFixupWarn(nv)		  set_nvol_flag(nv, NoFixupWarn)
 #define NVolClearNoFixupWarn(nv)	clear_nvol_flag(nv, NoFixupWarn)
+
+#define NVolFreeSpaceKnown(nv)		 test_nvol_flag(nv, FreeSpaceKnown)
+#define NVolSetFreeSpaceKnown(nv)	  set_nvol_flag(nv, FreeSpaceKnown)
+#define NVolClearFreeSpaceKnown(nv)	clear_nvol_flag(nv, FreeSpaceKnown)
 
 /*
  * NTFS version 1.1 and 1.2 are used by Windows NT4.
@@ -257,6 +266,8 @@ struct _ntfs_volume {
 	s64 free_mft_records; 	/* Same for free mft records (see above) */
 	BOOL efs_raw;		/* volume is mounted for raw access to
 				   efs-encrypted files */
+	ntfs_volume_special_files special_files; /* Implementation of special files */
+	const char *abs_mnt_point; /* Mount point */
 #ifdef XATTR_MAPPINGS
 	struct XATTRMAPPING *xattr_mapping;
 #endif /* XATTR_MAPPINGS */
@@ -275,7 +286,6 @@ struct _ntfs_volume {
 #if CACHE_LEGACY_SIZE
 	struct CACHE_HEADER *legacy_cache;
 #endif
-
 };
 
 extern const char *ntfs_home;

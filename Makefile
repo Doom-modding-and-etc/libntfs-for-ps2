@@ -4,7 +4,7 @@
 IOP_CFLAGS += -Wall -Os -I. -I../include -I../include/ntfs
 
 IOP_LIB = libntfs.a
-IOP_OBJS = source/bdmdriver.o source/attrlist.o
+IOP_OBJS = source/bdmdriver.o
 
 install: $(IOP_LIB)
 ifeq ($(PS2SDK),)

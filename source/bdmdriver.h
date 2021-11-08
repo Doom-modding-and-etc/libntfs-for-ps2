@@ -23,7 +23,7 @@
 #include <stdio.h>
 #define MX4SIO
 #define ILink 
-#define USB
+#define USBMASS
 
 unsigned int bdmntfswrite(u32 sectors_write, u64 sectors);
 unsigned int bdmntfs(u32 *mount_ntfs);

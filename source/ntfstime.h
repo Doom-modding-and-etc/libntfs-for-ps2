@@ -36,7 +36,6 @@
 
 #include "types.h"
 
-#ifndef GEKKO
 /*
  * assume "struct timespec" is not defined if st_mtime is not defined
  */
@@ -45,7 +44,6 @@ struct timespec {
 	time_t tv_sec;
 	long tv_nsec;
 } ;
-#endif
 #endif
 
 /*
@@ -104,7 +102,7 @@ static __inline__ ntfs_time timespec2ntfs(struct timespec spec)
 
 	units = (s64)spec.tv_sec * 10000000
 				+ NTFS_TIME_OFFSET + spec.tv_nsec/100;
-	return (cpu_to_le64(units));
+	return (cpu_to_sle64(units));
 }
 
 /*

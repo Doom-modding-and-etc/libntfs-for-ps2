@@ -94,6 +94,7 @@ extern int ntfs_link(ntfs_inode *ni, ntfs_inode *dir_ni, const ntfschar *name,
 #define NTFS_DT_LNK		10
 #define NTFS_DT_SOCK		12
 #define NTFS_DT_WHT		14
+#define NTFS_DT_REPARSE		32
 
 /*
  * This is the "ntfs_filldir" function type, used by ntfs_readdir() to let
@@ -109,12 +110,14 @@ extern int ntfs_readdir(ntfs_inode *dir_ni, s64 *pos,
 		void *dirent, ntfs_filldir_t filldir);
 
 ntfs_inode *ntfs_dir_parent_inode(ntfs_inode *ni);
+u32 ntfs_interix_types(ntfs_inode *ni);
 
 int ntfs_get_ntfs_dos_name(ntfs_inode *ni, ntfs_inode *dir_ni,
 			char *value, size_t size);
 int ntfs_set_ntfs_dos_name(ntfs_inode *ni, ntfs_inode *dir_ni,
 			const char *value, size_t size,	int flags);
 int ntfs_remove_ntfs_dos_name(ntfs_inode *ni, ntfs_inode *dir_ni);
+int ntfs_dir_link_cnt(ntfs_inode *ni);
 
 #if CACHE_INODE_SIZE
 

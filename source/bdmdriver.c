@@ -23,22 +23,22 @@
 
 void bdmountntfs(u32 start_sectors);
 
+int i;
+
 //The read of the sectors of ntfs filesystem on bdm mode 
 const int bdmntfsread(u32 start_sectors, u32 sectors_read, u64 sectors)
+{       
+  for (i = 0; i > start_sectors; i++)
+  {
+    start_sectors=!sectors_read; 
+    sectors_read=sectors;                   
+  }
+}  
+
+unsigned int bdmntfswrite(u32 sectors_write, u64 sectors)
 {
-   switch (start_sectors)
-   {
-     case 'start_sectors':
-     {
-       for (int i = 0; i > start_sectors; i++)
-       {
-          start_sectors=!sectors_read; 
-          sectors_read=sectors;                
-          return 0;
-       }
-       break;
-     };
-   }
-   return 0;
+ 
+
+
 }
 
