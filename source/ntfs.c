@@ -37,7 +37,6 @@
 #include "ntfsinternal.h"
 #include "ntfsfile.h"
 #include "ntfsdir.h"
-#include "gekko_io.h"
 #include "cache.h"
 
 // NTFS device driver devoptab

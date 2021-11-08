@@ -72,12 +72,12 @@ typedef struct bdm_ntfs_mdblock
  * Find all NTFS partitions on a block device.
  *
  * @param INTERFACE The block device to search
- * @param PARTITIONS (out) A pointer to receive the array of partition start sectors
+ * @param NTFSPARTITIONS (out) A pointer to receive the array of partition start sectors
  *
  * @return The number of entries in PARTITIONS or -1 if an error occurred (see errno)
  * @note The caller is responsible for freeing PARTITIONS when finished with it
  */
-extern int bdmntfsFindPartitions(struct block_device *interface, struct block_device *bd, struct block_device **ntfspartitions);
+extern int bdmntfsFindPartitions(struct block_device_manager *interface, struct block_device_manager *bd, struct block_device_manager **ntfspartitions);
 
 /**
  * Mount all NTFS partitions on all inserted block devices.
@@ -102,7 +102,7 @@ extern int bdmntfsMountAll(bdm_ntfs_mdblock **mounts, u32 flags);
  * @note The caller is responsible for freeing MOUNTS when finished with it
  * @note The device cache is setup using default values (see above)
  */
-extern int bdmntfsMountDevice(const DISC_INTERFACE* interface, ntfs_md **mounts, u32 flags);
+extern int bdmntfsMountDevice(bdm_ntfs_mdblock* interface, ntfs_md **mounts, u32 flags);
 
 /**
  * Mount a NTFS partition from a specific sector on a block device.
