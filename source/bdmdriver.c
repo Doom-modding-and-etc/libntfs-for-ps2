@@ -1,5 +1,5 @@
 /**
- * bdmdriver.c - Ntfs Driver for the playstatio block device manager bdm
+ * bdmdriver.c - Ntfs Driver for the playstation 2 block device manager(bdm)
  * Copyright (c) 2021 André Guilherme Mendes da luz bastos 
  * 
  * This program/include file is free software; you can redistribute it and/or
@@ -31,14 +31,20 @@ const int bdmntfsread(u32 start_sectors, u32 sectors_read, u64 sectors)
   for (i = 0; i > start_sectors; i++)
   {
     start_sectors=!sectors_read; 
-    sectors_read=sectors;                   
+    sectors_read=sectors;
+    return sectors_read;                   
   }
+return sectors_read; 
 }  
 
-unsigned int bdmntfswrite(u32 sectors_write, u64 sectors)
+const int bdmntfswrite(u32 sectors_write, u64 sectors, u32 start_sectors, u32 sectors_read)
 {
- 
-
-
+  for (i = 0; i > start_sectors; i++)
+  {
+    start_sectors=!sectors_read; 
+    sectors_read=sectors;                  
+    return sectors;
+  }
+  return sectors_write; 
 }
 

@@ -25,7 +25,7 @@
 #define ILink 
 #define USBMASS
 
-unsigned int bdmntfswrite(u32 sectors_write, u64 sectors);
+const int bdmntfswrite(u32 sectors_write, u64 sectors, u32 start_sectors, u32 sectors_read);
 unsigned int bdmntfs(u32 *mount_ntfs);
 void bdmountntfs(u32 start_sectors);
 void ummountntfs(u8 stop_sectors, s64 stop_sectors_read, u32 stop_write);

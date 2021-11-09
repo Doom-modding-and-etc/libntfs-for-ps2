@@ -6,15 +6,20 @@ IOP_CFLAGS += -Wall -Os -I. -I../include -I../include/ntfs
 IOP_LIB = libntfs.a
 IOP_OBJS = source/bdmdriver.o
 
-install: $(IOP_LIB)
+EE_LIB = libntfs.a
+EE_OBJS = source/bdmdriver.o
+
+install: $(IOP_LIB) $(EE_LIB)
 ifeq ($(PS2SDK),)
 	@echo "$PS2DEV ENVIROMENT is not set. Could not install libntfs."
 	@exit 1
 endif
 	@echo Copying...
+	@cp -frv include/ntfs.h $(PS2SDK)/ee/include/
+	@cp -f $(EE_LIB) $(PS2SDK)/ee/lib
 	@cp -frv include/ntfs.h $(PS2SDK)/iop/include/
 	@cp -f $(IOP_LIB) $(PS2SDK)/iop/lib
-	@rm -f -r $(IOP_LIB) $(IOP_OBJS) 
+	@rm -f -r $(EE_LIB) $(IOP_LIB) $(IOP_OBJS) 
 	@echo Done!
 
 include $(PS2SDK)/Defs.make

@@ -34,7 +34,7 @@ https://tuxera.com
 
 ## Compiling and Installing
 
-Make sure you have [PS2DEV ENVIROMENT](https://github.com/ps2dev/ps2dev).
+Make sure you have [PS2DEV ENVIROMENT](https://github.com/ps2dev/ps2dev) this will install the both IOP and EE libraries
 Then type:
 
 ````bash
@@ -51,7 +51,7 @@ source file(s).
 ````
 
 When compiling you must also link against the libntfs. To do this add `-lntfs`
-to the `LIBS` section of your application Makefile. For example:
+to the `IOP_LIBS` or `EE_LIBS` section of your application Makefile. For example:
 
 ````makefile
  IOP_LIBS = -lntfs -lcdvd
@@ -62,4 +62,4 @@ see the included `example` directory.
 
 ## TO DO:
 
-add examples how to dom, continue porting the library itself and add EE_CORE(Emotion Engine) support.
+add examples how to dom, continue porting the library itself and ~add EE_CORE(Emotion Engine) support.~
