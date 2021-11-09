@@ -1,17 +1,18 @@
 /*
- NTFS_CACHE.h
- The NTFS_CACHE is not visible to the user. It should be flushed
+ cache2c.h
+ The cache is not visible to the user. It should be flushed
  when any file is closed or changes are made to the filesystem.
 
- This NTFS_CACHE implements a least-used-page replacement policy. This will
+ This cache implements a least-used-page replacement policy. This will
  distribute sectors evenly over the pages, so if less than the maximum
- pages are used at once, they should all eventually remain in the NTFS_CACHE.
+ pages are used at once, they should all eventually remain in the cache.
  This also has the benefit of throwing out old sectors, so as not to keep
  too many stale pages around.
 
  Copyright (c) 2006 Michael "Chishm" Chisholm
  Copyright (c) 2009 shareese, rodries
-
+ Copyright (c) 2010 Dimok
+ Copyright (c) 2021 André Guilherme Mendes da luz bastos
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
 
@@ -37,14 +38,13 @@
 #ifndef _CACHE2_H
 #define _CACHE2_H
 
-//#include "common.h"
-//#include "disc.h"
-
 #include <stddef.h>
 #include <stdint.h>
-#include <gctypes.h>
-#include <ogc/disc_io.h>
-#include <gccore.h>
+#include <stdbool.h>
+
+typedef unsigned int size_t;
+typedef unsigned char sec_t;
+unsigned int i;
 
 typedef struct {
 	sec_t           sector;
@@ -52,16 +52,20 @@ typedef struct {
 	u64             last_access;
 	bool            dirty;
 	u8*             cache;
+	int    writeSectors;
 } NTFS_CACHE_ENTRY;
 
-typedef struct {
-	const DISC_INTERFACE* disc;
+typedef struct NTFS_CACHE
+{
+	NTFS_CACHE_ENTRY*     disc;
 	sec_t		          endOfPartition;
-	unsigned int          numberOfPages;
+	NTFS_CACHE_ENTRY*     numberOfPages;
 	unsigned int          sectorsPerPage;
-	sec_t                 sectorSize;
-	NTFS_CACHE_ENTRY*     cacheEntries;
-} NTFS_CACHE;
+	float*                sectorSize;
+	char                  cacheEntries;
+	NTFS_CACHE_ENTRY      sec;
+
+}NTFS_CACHE;
 
 /*
 Read data from a sector in the NTFS_CACHE
@@ -127,7 +131,7 @@ Clear out the contents of the NTFS_CACHE without writing any dirty sectors first
 */
 void _NTFS_cache_invalidate (NTFS_CACHE* NTFS_CACHE);
 
-NTFS_CACHE* _NTFS_cache_constructor (unsigned int numberOfPages, unsigned int sectorsPerPage, const DISC_INTERFACE* discInterface, sec_t endOfPartition, sec_t sectorSize);
+
 
 void _NTFS_cache_destructor (NTFS_CACHE* NTFS_CACHE);
 

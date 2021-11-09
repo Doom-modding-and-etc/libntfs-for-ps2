@@ -3,7 +3,7 @@
  Functions for dealing with conversion of data between types
 
  Copyright (c) 2006 Michael "Chishm" Chisholm
-	
+ Copyright (c) 2021 André Guilherme Mendes da luz bastos	
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
 
@@ -30,7 +30,7 @@
 #define _BIT_OPS_H
 
 #include <stdint.h>
-
+#include <stddef.h>
 /*-----------------------------------------------------------------
 Functions to deal with little endian values stored in uint8_t arrays
 -----------------------------------------------------------------*/

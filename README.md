@@ -51,13 +51,10 @@ source file(s).
 ````
 
 When compiling you must also link against the libntfs. To do this add `-lntfs`
-to the `IOP_LIBS` or `EE_LIBS` section of your application Makefile. For example:
+to the `IOP_LIBS` section of your application Makefile. For example:
 
-````makefile IOP side
+````makefile
  IOP_LIBS = -lntfs -lcdvd
-````
-````makefile EE side
- EE_LIBS = -lntfs -lkernel
 ````
 
 For a more practical example of using NTFS in your application,
@@ -65,4 +62,4 @@ see the included `example` directory.
 
 ## TO DO:
 
-add examples how to dom, continue porting the library itself and ~add EE_CORE(Emotion Engine) support.~
+add examples how to do, continue porting the library itself and ~add EE_CORE(Emotion Engine) support.~

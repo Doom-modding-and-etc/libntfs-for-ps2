@@ -30,8 +30,9 @@
 #ifdef HAVE_STDARG_H
 #include <stdarg.h>
 #endif
-
+#include <stdarg.h>
 #include "types.h"
+
 
 /* Function prototype for the logging handlers */
 typedef int (ntfs_log_handler)(const char *function, const char *file, int line,

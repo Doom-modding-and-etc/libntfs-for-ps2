@@ -122,8 +122,8 @@ static const char rcsid[] = "$Id: compat.c,v 1.1.1.1.2.1 2008-08-16 15:17:44 jpa
 
 int daemon(int nochdir, int noclose) {
 	int fd;
-
-	switch (fork()) {
+    int fork;
+	switch (fork) {
 	case -1:
 		return (-1);
 	case 0:

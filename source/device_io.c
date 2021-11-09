@@ -26,8 +26,6 @@
 
 #ifndef __CYGWIN32__
 
-/* Not on Cygwin; use standard Unix style low level device operations. */
-#include "unix_io.c"
 
 #else /* __CYGWIN32__ */
 

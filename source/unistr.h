@@ -25,6 +25,7 @@
 
 #include "types.h"
 #include "layout.h"
+#include <stddef.h>
 
 extern BOOL ntfs_names_are_equal(const ntfschar *s1, size_t s1_len,
 		const ntfschar *s2, size_t s2_len, const IGNORE_CASE_BOOL ic,

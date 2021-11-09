@@ -34,6 +34,8 @@
 #include <sys/types.h>
 #endif
 
+typedef unsigned int time_t;
+typedef unsigned long off_t;
 typedef uint8_t  u8;			/* Unsigned types of an exact size */
 typedef uint16_t u16;
 typedef uint32_t u32;

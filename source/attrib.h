@@ -36,6 +36,7 @@ typedef struct _ntfs_attr_search_ctx ntfs_attr_search_ctx;
 #include "volume.h"
 #include "debug.h"
 #include "logging.h"
+#include <stddef.h>
 
 extern ntfschar AT_UNNAMED[];
 extern ntfschar STREAM_SDS[];

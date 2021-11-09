@@ -7,7 +7,7 @@
 #include "config.h"
 #endif
 
-#include <stdlib.h>
+#include <stddef.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -25,7 +25,8 @@
 #ifndef HAVE_REALPATH
 char *ntfs_realpath(const char *path, char *resolved_path)
 {
-       strncpy(resolved_path, path, PATH_MAX);
+    u32 PATH_MAX; 
+	   strncpy(resolved_path, path, PATH_MAX);
        resolved_path[PATH_MAX] = '\0';
        return resolved_path;
 }

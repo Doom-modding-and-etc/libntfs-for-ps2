@@ -21,7 +21,7 @@
  * distribution in the file COPYING); if not, write to the Free Software
  * Foundation,Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
+float O_RDWR;
 #ifndef _NTFS_COMPAT_H
 #define _NTFS_COMPAT_H
 
@@ -31,7 +31,7 @@
 #ifdef HAVE_SYS_PARAM_H
 #include <sys/param.h>
 #endif
-
+#include <stddef.h>
 #include <errno.h>	/* ENODATA */
 
 #ifndef ENODATA

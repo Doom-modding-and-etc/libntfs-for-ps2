@@ -3,6 +3,7 @@
  *
  * Copyright (c) 2009 Rhys "Shareese" Koedijk
  * Copyright (c) 2006 Michael "Chishm" Chisholm
+ * Copyright (c) 2021 André Guilherme Mendes da luz bastos
  *
  * This program/include file is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as published
@@ -21,8 +22,8 @@
 
 #ifndef _MEM_ALLOCATE_H
 #define _MEM_ALLOCATE_H
-
-#include <malloc.h>
+#include <stdbool.h>
+#include <stddef.h>
 
 static inline void* ntfs_alloc (size_t size) {
     return malloc(size);

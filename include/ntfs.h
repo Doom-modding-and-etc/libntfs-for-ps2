@@ -61,12 +61,12 @@ unsigned char interface;
  */
 typedef struct bdm_ntfs_mdblock 
 {
-    char name[32];                      /* Mount name (can be accessed as "name:/") */
+    char name[32];                      /* Mount name (can be accessed as "mass0:/", hdd0: or else) */
     struct block_device* interface;    /* Block device containing the mounted partition */
     startSector;                  /* Local block address to first sector of partition */
     const bool stopSectors;
-    struct block_device **ntfspartitions;
-}
+    struct block_device **ntfspartitions;  
+};
 
 /**
  * Find all NTFS partitions on a block device.
@@ -102,7 +102,7 @@ extern int bdmntfsMountAll(bdm_ntfs_mdblock **mounts, u32 flags);
  * @note The caller is responsible for freeing MOUNTS when finished with it
  * @note The device cache is setup using default values (see above)
  */
-extern int bdmntfsMountDevice(bdm_ntfs_mdblock* interface, ntfs_md **mounts, u32 flags);
+extern int bdmntfsMountDevice(bdm_ntfs_mdblock* interface, bdm_ntfs_mdblock **mounts, u32 flags);
 
 /**
  * Mount a NTFS partition from a specific sector on a block device.

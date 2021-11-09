@@ -33,6 +33,7 @@ typedef struct _ntfs_inode ntfs_inode;
 #include "support.h"
 #include "volume.h"
 #include "ntfstime.h"
+#include <stddef.h>
 
 /**
  * enum ntfs_inode_state_bits -
