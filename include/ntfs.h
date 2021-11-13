@@ -29,6 +29,7 @@ extern "C" {
 
 #include <bdm.h>
 #include <stdio.h>
+#include <stdbool.h>
 
 /* NTFS errno values */
 #define ENOPART                         3000 /* No partition was found */
@@ -52,20 +53,24 @@ extern "C" {
 #define NTFS_SU                         NTFS_SHOW_HIDDEN_FILES | NTFS_SHOW_SYSTEM_FILES
 #define NTFS_FORCE                      NTFS_RECOVER | NTFS_IGNORE_HIBERFILE
 
-sectorSize = 4096;
-unsigned char interface;
+int sectorSize = 4096;
+unsigned int interface;
 
 
 /**
  * bdmntfs_md - Block device manager ntfs mount descriptor
  */
-typedef struct bdm_ntfs_mdblock 
+struct block_device_manager;
+
+struct bdm_ntfs_mdblock 
 {
     char name[32];                      /* Mount name (can be accessed as "mass0:/", hdd0: or else) */
     struct block_device* interface;    /* Block device containing the mounted partition */
-    startSector;                  /* Local block address to first sector of partition */
+    int startSector;                  /* Local block address to first sector of partition */
     const bool stopSectors;
-    struct block_device **ntfspartitions;  
+    struct block_device_manager **ntfspartitions;  
+    struct block_device_manager   *bd;
+    int **mounts;
 };
 
 /**
@@ -77,7 +82,7 @@ typedef struct bdm_ntfs_mdblock
  * @return The number of entries in PARTITIONS or -1 if an error occurred (see errno)
  * @note The caller is responsible for freeing PARTITIONS when finished with it
  */
-extern int bdmntfsFindPartitions(struct block_device_manager *interface, struct block_device_manager *bd, struct block_device_manager **ntfspartitions);
+extern int bdmntfsFindPartitions(struct bdm_ntfs_mdblock *interface, struct bdm_ntfs_mdblock *bd, struct bdm_ntfs_mdblock **ntfspartitions);
 
 /**
  * Mount all NTFS partitions on all inserted block devices.
@@ -89,7 +94,7 @@ extern int bdmntfsFindPartitions(struct block_device_manager *interface, struct 
  * @note The caller is responsible for freeing MOUNTS when finished with it
  * @note All device caches are setup using default values (see above)
  */
-extern int bdmntfsMountAll(bdm_ntfs_mdblock **mounts, u32 flags);
+extern int bdmntfsMountAll(struct bdm_ntfs_mdblock **mounts, u32 flags);
 
 /**
  * Mount all NTFS partitions on a block devices.
@@ -102,7 +107,7 @@ extern int bdmntfsMountAll(bdm_ntfs_mdblock **mounts, u32 flags);
  * @note The caller is responsible for freeing MOUNTS when finished with it
  * @note The device cache is setup using default values (see above)
  */
-extern int bdmntfsMountDevice(bdm_ntfs_mdblock* interface, bdm_ntfs_mdblock **mounts, u32 flags);
+extern int bdmntfsMountDevice(struct bdm_ntfs_mdblock* interface, struct bdm_ntfs_mdblock **mounts, u32 flags);
 
 /**
  * Mount a NTFS partition from a specific sector on a block device.
@@ -117,7 +122,7 @@ extern int bdmntfsMountDevice(bdm_ntfs_mdblock* interface, bdm_ntfs_mdblock **mo
  * @return True if mount was successful, false if no partition was found or an error occurred (see errno)
  * @note ntfsFindPartitions should be used first to locate the partitions start sector
  */
-extern bool bdmntfsMount(const char *name, bdm_ntfs_mdblock *interface, u32 startSector, u32 cachePageCount, u32 cachePageSize, u32 flags);
+extern bool bdmntfsMount(const char *name, struct bdm_ntfs_mdblock *interface, u32 startSector, u32 cachePageCount, u32 cachePageSize, u32 flags);
 
 /**
  * Unmount a NTFS partition.
@@ -125,7 +130,7 @@ extern bool bdmntfsMount(const char *name, bdm_ntfs_mdblock *interface, u32 star
  * @param NAME The name of mount used in ntfsMountSimple() and ntfsMount()
  * @param FORCE If true unmount even if the device is busy (may lead to data lose)
  */
-extern void bdmntfsUnmount(const char *name, unsigned bool force);
+extern void bdmntfsUnmount(const char *name, bool force);
 
 /**
  * Get the volume name of a mounted NTFS partition.
@@ -146,6 +151,26 @@ extern const char *bdmntfsGetVolumeName(const char *name);
  * @note The mount must be write-enabled else this will fail
  */
 extern bool bdmntfsSetVolumeName(const char *name, const char *volumeName);
+
+/**
+ * Chech the fragmentation of the sectors wich is 4096 bytes filesystem.
+ *
+ * @param NTFS_FRAG_APPEND_T The name of the declaration for the fragment
+ *
+ * @param ff Maybe hex?
+ */
+typedef int(*_ntfs_frag_append_t)(void *ff, u32 offset, u32 sector, u32 count);
+
+/**
+ * Chech the fragmentation of the filesystem.
+ *
+ *
+ * @param path mount which will detect the fragmentation on block device manager or hdd
+ * @param append_fragment fragment on sectors 
+ * @param callback_data The calling back of the partition when fragmented 
+ */
+
+int _NTFS_get_fragments(const char *path, _ntfs_frag_append_t append_fragment, void *callback_data);
 
 #ifdef __cplusplus
 }

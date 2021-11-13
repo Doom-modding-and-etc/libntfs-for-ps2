@@ -151,6 +151,25 @@ extern const char *bdmntfsGetVolumeName(const char *name);
  */
 extern bool bdmntfsSetVolumeName(const char *name, const char *volumeName);
 
+/**
+ * Chech the fragmentation of the sectors wich is 4096 bytes filesystem.
+ *
+ * @param NTFS_FRAG_APPEND_T The name of the declaration for the fragment
+ *
+ * @param ff Maybe hex?
+ */
+typedef int(*_ntfs_frag_append_t)(void *ff, u32 offset, u32 sector, u32 count);
+
+/**
+ * Chech the fragmentation of the filesystem.
+ *
+ *
+ * @param path mount which will detect the fragmentation on block device manager or hdd
+ * @param append_fragment fragment on sectors 
+ * @param callback_data The calling back of the partition when fragmented 
+ */
+int _NTFS_get_fragments(const char *path, _ntfs_frag_append_t append_fragment, void *callback_data);
+
 #ifdef __cplusplus
 }
 #endif

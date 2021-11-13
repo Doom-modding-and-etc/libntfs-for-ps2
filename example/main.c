@@ -21,12 +21,8 @@
 #include <ntfs.h>
 
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <dirent.h>
+#include <stddef.h>
 #include <errno.h>
-
 static void *xfb = NULL;
 static GXRModeObj *rmode = NULL;
 
@@ -221,4 +217,3 @@ int main(int argc, char **argv) {
 
     return 0;
 }
-
