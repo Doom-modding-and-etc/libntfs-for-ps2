@@ -24,15 +24,15 @@
 #ifndef _NTFS_NTFSTIME_H
 #define _NTFS_NTFSTIME_H
 
-#ifdef HAVE_TIME_H
-#include <time.h>
-#endif
-#ifdef HAVE_SYS_STAT_H
-#include <sys/stat.h>
-#endif
-#ifdef HAVE_GETTIMEOFDAY
-#include <sys/time.h>
-#endif
+//#ifdef HAVE_TIME_H
+//#include <time.h>
+//#endif
+//#ifdef HAVE_SYS_STAT_H
+//#include <sys/stat.h>
+//#endif
+//#ifdef HAVE_GETTIMEOFDAY
+//#include <sys/time.h>
+//#endif
 
 #include "types.h"
 

@@ -33,13 +33,13 @@
 #ifdef HAVE_STDIO_H
 #include <stdio.h>
 #endif
-#ifdef HAVE_SYS_PARAM_H
-#include <sys/param.h>
-#endif
+//#ifdef HAVE_SYS_PARAM_H
+//#include <sys/param.h>
+//#endif
 	/* Do not #include <sys/mount.h> here : conflicts with <linux/fs.h> */
-#ifdef HAVE_MNTENT_H
-#include <mntent.h>
-#endif
+//#ifdef HAVE_MNTENT_H
+//#include <mntent.h>
+//#endif
 
 /* Forward declaration */
 typedef struct _ntfs_volume ntfs_volume;

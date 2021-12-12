@@ -56,14 +56,14 @@
 #ifdef HAVE_LINUX_FS_H
 #include <linux/fs.h>
 #endif
-
 #include "types.h"
 #include "mst.h"
 #include "debug.h"
 #include "device.h"
 #include "logging.h"
 #include "misc.h"
-
+#include <stddef.h>
+#include "compat.h"
 #define DEV_FD(dev)	(*(int *)dev->d_private)
 
 /* Define to nothing if not present on this system. */
@@ -116,8 +116,6 @@ static int ntfs_fsync(int fildes)
  */
 static int ntfs_device_unix_io_open(struct ntfs_device *dev, int flags)
 {
-	struct flock flk;
-	struct stat sbuf;
 	int err;
 
 	if (NDevOpen(dev)) {

@@ -168,6 +168,7 @@ typedef int(*_ntfs_frag_append_t)(void *ff, u32 offset, u32 sector, u32 count);
  * @param append_fragment fragment on sectors 
  * @param callback_data The calling back of the partition when fragmented 
  */
+
 int _NTFS_get_fragments(const char *path, _ntfs_frag_append_t append_fragment, void *callback_data);
 
 #ifdef __cplusplus

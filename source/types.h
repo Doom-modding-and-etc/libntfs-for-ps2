@@ -3,7 +3,7 @@
  *           Originated from the Linux-NTFS project.
  *
  * Copyright (c) 2000-2004 Anton Altaparmakov
- *
+ * Copyright (c) 2021 André Guilherme
  * This program/include file is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as published
  * by the Free Software Foundation; either version 2 of the License, or
@@ -35,8 +35,10 @@
 #endif
 #define	LC_ALL		  __LC_ALL
 #define __LC_ALL		6
+
 typedef struct mode *mode_t;
 typedef struct dev *dev_t;
+typedef unsigned int size_t;
 typedef unsigned int time_t;
 typedef unsigned long off_t;
 typedef uint8_t  u8;			/* Unsigned types of an exact size */

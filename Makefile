@@ -1,26 +1,53 @@
 # LIBNTFS FOR PLAYSTATION 2
 # Copyright (c) 2021 André Guilherme Mendes da luz bastos based on libsmb2 makefile
 
-IOP_CFLAGS += -Wall -Os -I../include -I../include/ntfs
-
 IOP_LIB = libntfs.a
 
-IOP_OBJS = source/bdmdriver.o source/cache2.o source/compat.o  source/device_io.o source/misc.o source/mst.o \
-source/realpath.o source/reparse.o source/runlist.o source/unistr.o
+EE_LIB = libntfs.a
 
-OBJS_DIR = obj/
+IOP_CFLAGS += -Wall -Os -I../include -I../include/ntfs
 
-install: $(IOP_LIB) 
+EE_CFLAGS += -Wall -Os -I../include -I../include/ntfs
+
+#Solve these IOP Side source/acls.o source/attrib.o source/collate.o
+IOP_OBJS = source/attrlist.o source/bdmdriver.o source/bitmap.o source/cache2.o source/compat.o source/compress.o \
+source/debug.o source/device_io.o source/efs.o source/inode.o source/lcnalloc.o source/logfile.o source/misc.o source/mst.o source/realpath.o \
+source/reparse.o source/runlist.o source/unistr.o
+
+#Solve these EE side: source/bdmdriver.o source/cache2.o source/misc.o source/realpath.o source/reparse.o source/runlist.o source/unistr.o
+EE_OBJS = source/compat.o source/device_io.o source/mst.o \
+
+IOP_OBJS_DIR = IOP/
+
+EE_OBJS_DIR = EE/
+
+IOP: $(IOP_LIB) 
 ifeq ($(PS2DEV),)
 	@echo "$PS2DEV ENVIROMENT is not set. Could not install libntfs."
 	@exit 1
 endif
 	@echo Copying...
-	@cp -frv include/ee/ntfs.h $(PS2SDK)/ports/include/
-	@cp -f $(IOP_LIB) $(PS2SDK)/ports/lib
-	@rm -f -r $(IOP_LIB) $(OBJS_DIR) 
+	@cp -frv include/ntfs.h $(PS2SDK)/iop/include/
+	@cp -f $(IOP_LIB) $(PS2SDK)/iop/lib
 	@echo Done!
+
+EE: $(EE_LIB)
+ifeq ($(PS2DEV),)
+	@echo "$PS2DEV ENVIROMENT is not set. Could not install libntfs."
+	@exit 1
+endif
+	@echo Copying...
+	@cp -frv include/ee/ntfs.h $(PS2SDK)/ee/include/
+	@cp -f $(EE_LIB) $(PS2SDK)/ee/lib
+	@echo Done!
+	
+clean:
+	@rm -f -r $(IOP_LIB) $(IOP_OBJS_DIR)
+	@rm -f -r $(EE_LIB) $(EE_OBJS_DIR) $(EE_OBJS)
+
+install: IOP EE clean
 
 include $(PS2SDK)/Defs.make
 include $(PS2SDK)/samples/Makefile.pref
 include $(PS2SDK)/samples/Makefile.iopglobal
+include $(PS2SDK)/samples/Makefile.eeglobal 

@@ -1,4 +1,4 @@
-## INTRODUCTION
+## INTRODUCTION(WIP)
 
 The NTFS-3G driver is an open source, freely available read/write NTFS driver
 for Linux, FreeBSD, macOS, NetBSD, OpenIndiana, QNX and Haiku. It provides
@@ -62,4 +62,4 @@ see the included `example` directory.
 
 ## TO DO:
 
-add examples how to do, continue porting the library itself and ~add EE_CORE(Emotion Engine) support.~
+add examples how to do, continue porting the library itself and ~add EE_CORE(Emotion Engine) support(done)~.

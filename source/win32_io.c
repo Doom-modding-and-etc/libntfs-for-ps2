@@ -32,8 +32,8 @@
 #undef BOOL
 #endif
 
-#ifdef HAVE_STDLIB_H
-#include <stdlib.h>
+#ifdef HAVE_STDDEF_H
+#include <stddef.h>
 #endif
 
 /*
