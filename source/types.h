@@ -33,7 +33,10 @@
 #ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
 #endif
-
+#define	LC_ALL		  __LC_ALL
+#define __LC_ALL		6
+typedef struct mode *mode_t;
+typedef struct dev *dev_t;
 typedef unsigned int time_t;
 typedef unsigned long off_t;
 typedef uint8_t  u8;			/* Unsigned types of an exact size */

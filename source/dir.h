@@ -26,9 +26,9 @@
 #define _NTFS_DIR_H
 
 #include "types.h"
-
+#include <stddef.h>
+#include <sys/types.h>
 #define PATH_SEP '/'
-
 /*
  * We do not have these under DJGPP, so define our version that do not conflict
  * with other S_IFs defined under DJGPP.

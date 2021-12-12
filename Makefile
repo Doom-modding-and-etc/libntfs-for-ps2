@@ -1,16 +1,17 @@
 # LIBNTFS FOR PLAYSTATION 2
 # Copyright (c) 2021 André Guilherme Mendes da luz bastos based on libsmb2 makefile
 
-IOP_CFLAGS += -Wall -Os -I. -I../include -I../include/ntfs
+IOP_CFLAGS += -Wall -Os -I../include -I../include/ntfs
 
 IOP_LIB = libntfs.a
+
 IOP_OBJS = source/bdmdriver.o source/cache2.o source/compat.o  source/device_io.o source/misc.o source/mst.o \
-source/realpath.o 
+source/realpath.o source/reparse.o source/runlist.o source/unistr.o
 
 OBJS_DIR = obj/
 
 install: $(IOP_LIB) 
-ifeq ($(PS2SDK),)
+ifeq ($(PS2DEV),)
 	@echo "$PS2DEV ENVIROMENT is not set. Could not install libntfs."
 	@exit 1
 endif

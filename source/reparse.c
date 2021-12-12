@@ -4,7 +4,7 @@
  *	This module is part of ntfs-3g library
  *
  * Copyright (c) 2008-2021 Jean-Pierre Andre
- *
+ * Copyright (c) 2021 André Guilherme Mendes Da Luz Bastos
  * This program/include file is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as published
  * by the Free Software Foundation; either version 2 of the License, or
@@ -60,6 +60,8 @@
 #include "reparse.h"
 #include "xattrs.h"
 #include "ea.h"
+#include <sys/types.h>
+
 
 struct MOUNT_POINT_REPARSE_DATA {      /* reparse data for junctions */
 	le16	subst_name_offset;
@@ -1384,17 +1386,17 @@ int ntfs_reparse_set_wsl_not_symlink(ntfs_inode *ni, mode_t mode)
 
 	res = -1;
 	len = 0;
-	switch (mode) {
-	case S_IFSOCK :
+	switch ('mode') {
+	case 'S_IFSOCK' :
 		reparse_tag = IO_REPARSE_TAG_AF_UNIX;
 		break;
-	case S_IFIFO :
+	case 'S_IFIFO' :
 		reparse_tag = IO_REPARSE_TAG_LX_FIFO;
 		break;
-	case S_IFCHR :
+	case 'S_IFCHR' :
 		reparse_tag = IO_REPARSE_TAG_LX_CHR;
 		break;
-	case S_IFBLK :
+	case 'S_IFBLK' :
 		reparse_tag = IO_REPARSE_TAG_LX_BLK;
 		break;
 	default :

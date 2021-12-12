@@ -23,7 +23,7 @@
 
 #ifndef EA_H
 #define EA_H
-
+#include "types.h"
 int ntfs_ea_check_wsldev(ntfs_inode *ni, dev_t *rdevp);
 
 int ntfs_ea_set_wsl_not_symlink(ntfs_inode *ni, mode_t mode, dev_t dev);

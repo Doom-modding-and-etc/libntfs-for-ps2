@@ -26,11 +26,23 @@
 #define ILink 
 #define USBMASS
 
-const int bdmntfswrite(u32 sectors_write, u64 sectors, u32 start_sectors, u32 sectors_read);
+typedef struct sectors
+{
+  u32 sectors_write;
+  u64 sectors; 
+  u32 start_sectors; 
+  u32 sectors_read;
+  u8 stop_sectors;
+  s64 stop_sectors_read;
+  u32 stop_write;
+  u8 ntfs;
+} sectors;
+
+const int bdmntfswrite();
 unsigned int bdmntfs(u32 *mount_ntfs);
-void bdmountntfs(u32 start_sectors);
-void ummountntfs(u8 stop_sectors, s64 stop_sectors_read, u32 stop_write);
-unsigned int connect_bdm(u32 sectors_read, u32 sectors_write, u8 ntfs);
+void bdmountntfs();
+void ummountntfs();
+unsigned int connect_bdm();
 unsigned int disconnect_bdm();
 void sectors_stop();
 

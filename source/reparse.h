@@ -23,7 +23,7 @@
 
 #ifndef REPARSE_H
 #define REPARSE_H
-
+#include "types.h"
 char *ntfs_make_symlink(ntfs_inode *ni, const char *mnt_point);
 
 BOOL ntfs_possible_symlink(ntfs_inode *ni);
