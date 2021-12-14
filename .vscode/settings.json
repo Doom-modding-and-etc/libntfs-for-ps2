@@ -29,6 +29,21 @@
         "stdlib.h": "c",
         "compat.h": "c",
         "grp.h": "c",
-        "pwd.h": "c"
+        "pwd.h": "c",
+        "config.h": "c",
+        "cctype": "c",
+        "cfloat": "c",
+        "climits": "c",
+        "cmath": "c",
+        "cstdarg": "c",
+        "cstdio": "c",
+        "cstdlib": "c",
+        "cwchar": "c",
+        "limits": "c",
+        "*.tcc": "c",
+        "cinttypes": "c",
+        "cstdbool": "c",
+        "cstdint": "c",
+        "typeinfo": "c"
     }
 }

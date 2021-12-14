@@ -42,7 +42,7 @@
 #ifdef HAVE_LIMITS_H
 #include <limits.h>
 #endif
-#include <time.h>
+//#include <time.h>
 
 #include "compat.h"
 #include "types.h"

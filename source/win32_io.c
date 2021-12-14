@@ -25,7 +25,7 @@
  */
 
 #include "config.h"
-
+#include "types.h"
 #ifdef HAVE_WINDOWS_H
 #define BOOL WINBOOL /* avoid conflicting definitions of BOOL */
 #include <windows.h>
@@ -54,7 +54,7 @@ typedef struct {
                            final 12 hexadecimal digits. */
 } GUID;
 
-#include <winioctl.h>
+//#include <winioctl.h>
 
 #ifdef HAVE_STDIO_H
 #include <stdio.h>

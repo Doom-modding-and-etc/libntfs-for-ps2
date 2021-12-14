@@ -39,7 +39,8 @@
 #include "debug.h"
 #include "unistr.h"
 #include "logging.h"
-
+#include <errno.h>
+#include <string.h>
 /**
  * ntfs_collate_binary - Which of two binary objects should be listed first
  * @vol: unused

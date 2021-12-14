@@ -37,7 +37,7 @@
 #ifdef HAVE_ERRNO_H
 #include <errno.h>
 #endif
-
+#include <stdio.h>
 #include "param.h"
 #include "compat.h"
 #include "bootsect.h"

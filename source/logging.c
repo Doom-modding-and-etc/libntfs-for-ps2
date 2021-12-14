@@ -46,7 +46,7 @@
 
 #include "logging.h"
 #include "misc.h"
-
+#include <stdio.h>
 #ifndef PATH_SEP
 #define PATH_SEP '/'
 #endif

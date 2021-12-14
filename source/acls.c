@@ -5,7 +5,7 @@
  *	integrated in tools running over Linux or Windows
  *
  * Copyright (c) 2007-2017 Jean-Pierre Andre
- *
+ * Copyright (c) 2021 André Guilherme 
  * This program/include file is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as published
  * by the Free Software Foundation; either version 2 of the License, or
@@ -27,28 +27,28 @@
 #ifdef HAVE_STDIO_H
 #include <stdio.h>
 #endif
-#ifdef HAVE_STDLIB_H
-#include <stdlib.h>
-#endif
+//#ifdef HAVE_STDLIB_H
+//#include <stdlib.h>
+//#endif
 #ifdef HAVE_STRING_H
 #include <string.h>
 #endif
 #ifdef HAVE_ERRNO_H
 #include <errno.h>
 #endif
-#ifdef HAVE_SYS_STAT_H
-#include <sys/stat.h>
-#endif
-#ifdef HAVE_FCNTL_H
-#include <fcntl.h>
-#endif
+//#ifdef HAVE_SYS_STAT_H
+//#include <sys/stat.h>
+//#endif
+//#ifdef HAVE_FCNTL_H
+//#include <fcntl.h>
+//#endif
 #ifdef HAVE_SYSLOG_H
 #include <syslog.h>
 #endif
-#include <unistd.h>
-#include <pwd.h>
-#include <grp.h>
-
+//#include <unistd.h>
+//#include <pwd.h>
+//#include <grp.h>
+#include <stddef.h>
 #include "types.h"
 #include "layout.h"
 #include "security.h"
@@ -4446,7 +4446,7 @@ struct MAPPING *ntfs_do_group_mapping(struct MAPLIST *firstitem)
 	int step;
 	SID *sid;
 	int gid;
-
+    
 	firstmapping = (struct MAPPING*)NULL;
 	lastmapping = (struct MAPPING*)NULL;
 	for (step=1; step<=2; step++) {

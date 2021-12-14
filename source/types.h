@@ -22,11 +22,35 @@
 
 #ifndef _NTFS_TYPES_H
 #define _NTFS_TYPES_H
-
+#define INT_MAX	2147483647
+#define S_IRWXO 00007
+#define S_IROTH 00004
+#define S_IWOTH 00002
+#define S_IXOTH 00001
+#define S_IRWXG 00070
+#define S_IRGRP 00040
+#define S_IWGRP 00020
+#define S_IXGRP 00010
+#define S_IRWXU 00700
+#define S_IRUSR 00400
+#define S_IWUSR 00200
+#define S_IXUSR 00100
+#define S_IFMT  00170000
+#define S_IFSOCK 0140000
+#define S_IFLNK	 0120000
+#define S_IFREG  0100000
+#define S_IFBLK  0060000
+#define S_IFDIR  0040000
+#define S_IFCHR  0020000
+#define S_IFIFO  0010000
+#define S_ISUID  0004000
+#define S_ISGID  0002000
+#define S_ISVTX  0001000
+#define SEEK_SET 0
+#define O_RDONLY 00
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
-
 #if HAVE_STDINT_H || !HAVE_CONFIG_H
 #include <stdint.h>
 #endif
@@ -36,11 +60,17 @@
 #define	LC_ALL		  __LC_ALL
 #define __LC_ALL		6
 
-typedef struct mode *mode_t;
+typedef unsigned int mode_t;
+typedef struct mode_t *mode;
+typedef unsigned int gid_t;
+typedef unsigned int uid_t;
+typedef unsigned int pid_t;
 typedef struct dev *dev_t;
 typedef unsigned int size_t;
 typedef unsigned int time_t;
 typedef unsigned long off_t;
+typedef unsigned int __uid_t;
+typedef unsigned int __gid_t;
 typedef uint8_t  u8;			/* Unsigned types of an exact size */
 typedef uint16_t u16;
 typedef uint32_t u32;
@@ -142,6 +172,27 @@ union ALIGNMENT {
 	u64 u64align;
 	void *ptralign;
 } ;
+
+struct passwd
+{
+
+  char *pw_name;		/* Username.  */
+  char *pw_passwd;		/* Hashed passphrase, if shadow database
+                                   not in use (see shadow.h).  */
+  __uid_t pw_uid;		/* User ID.  */
+  __gid_t pw_gid;		/* Group ID.  */
+  char *pw_gecos;		/* Real name.  */
+  char *pw_dir;			/* Home directory.  */
+  char *pw_shell;		/* Shell program.  */
+};
+
+struct group
+{
+ char *gr_name;		/* Group name.	*/
+ char *gr_passwd;		/* Password.	*/
+ __gid_t gr_gid;		/* Group ID.	*/
+ char **gr_mem;		/* Member list.	*/
+};
 
 #endif /* defined _NTFS_TYPES_H */
 
