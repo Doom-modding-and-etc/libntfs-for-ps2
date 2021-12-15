@@ -5,14 +5,14 @@ IOP_LIB = libntfs.a
 
 EE_LIB = libntfs.a
 
-IOP_CFLAGS += -Wall -Os -I../include -I../include/ntfs
+IOP_CFLAGS += -Wall -Os -I../include -I../include/
 
-EE_CFLAGS += -Wall -Os -I../include -I../include/ntfs
+EE_CFLAGS += -Wall -Os -I../include -I../include/
 
 IOP_OBJS = source/acls.o source/atrrib.o source/attrlist.o \
 source/bdmdriver.o source/bitmap.o source/bootsect.o \
 source/cache.o source/cache2.o source/collate.o source/compat.o source/compress.o \
-source/debug.o source/device_io.o source/device.o \
+source/debug.o source/device_io.o source/device.o\
 source/ea.o source/efs.o source/inode.o source/lcnalloc.o \
 source/logfile.o source/logfile.o \
 source/mft.o source/misc.o source/mst.o \
