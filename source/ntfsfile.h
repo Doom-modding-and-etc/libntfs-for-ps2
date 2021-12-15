@@ -27,7 +27,7 @@
 #endif
 
 #include "ntfsinternal.h"
-#include <sys/reent.h>
+#include "types.h"
 
 /**
  * ntfs_file_state - File state

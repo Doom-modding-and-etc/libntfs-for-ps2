@@ -23,7 +23,7 @@
 #define _NTFSDIR_H
 
 #include "ntfsinternal.h"
-#include <sys/reent.h>
+//#include <sys/reent.h>
 
 /**
  * ntfs_dir_entry - Directory entry

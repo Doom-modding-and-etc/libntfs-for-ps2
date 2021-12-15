@@ -37,7 +37,8 @@
 #include "ntfsinternal.h"
 #include "ntfsdir.h"
 #include "ntfsfile.h"
-
+#include "gctypes.h"
+//#include <atad.h> soon
 #if defined(__wii__)
 #include <sdcard/wiisd_io.h>
 #include <sdcard/gcsd.h>
@@ -132,7 +133,7 @@ void ntfsRemoveDevice (const char *path)
     return;
 }
 
-const devoptab_t *ntfsGetDevice (const char *path, bool useDefaultDevice)
+const devoptab_t *ntfsGetDevice(const char *path, bool useDefaultDevice)
 {
     const devoptab_t *devoptab = NULL;
     char name[128] = {0};
@@ -164,13 +165,13 @@ const devoptab_t *ntfsGetDevice (const char *path, bool useDefaultDevice)
     return NULL;
 }
 
-const INTERFACE_ID *ntfsGetDiscInterfaces (void)
+const INTERFACE_ID *ntfsGetDiscInterfaces(void)
 {
     // Get all know disc interfaces on the host system
     return ntfs_disc_interfaces;
 }
 
-ntfs_vd *ntfsGetVolume (const char *path)
+ntfs_vd *ntfsGetVolume(const char *path)
 {
     // Get the volume descriptor from the paths associated devoptab (if found)
     const devoptab_t *devoptab_ntfs = ntfsGetDevOpTab();
@@ -181,7 +182,7 @@ ntfs_vd *ntfsGetVolume (const char *path)
     return NULL;
 }
 
-int ntfsInitVolume (ntfs_vd *vd)
+int ntfsInitVolume(ntfs_vd *vd)
 {
     // Sanity check
     if (!vd) {
@@ -207,7 +208,7 @@ int ntfsInitVolume (ntfs_vd *vd)
     return 0;
 }
 
-void ntfsDeinitVolume (ntfs_vd *vd)
+void ntfsDeinitVolume(ntfs_vd *vd)
 {
     // Sanity check
     if (!vd) {
@@ -302,8 +303,8 @@ ntfs_inode *ntfsParseEntry (ntfs_vd *vd, const char *path, int reparseLevel)
                 return NULL;
             }
 
-            // Get the target path of this entry
-            target = ntfs_make_symlink(ni, path, &attr_size);
+            // Get the target path of this entry  &attr_size
+            target = ntfs_make_symlink(ni, path);
             if (!target) {
                 ntfsCloseEntry(vd, ni);
                 return NULL;

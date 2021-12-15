@@ -41,9 +41,8 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <stdbool.h>
-
+#include "gctypes.h"
 typedef unsigned int size_t;
-typedef unsigned char sec_t;
 unsigned int i;
 
 typedef struct {

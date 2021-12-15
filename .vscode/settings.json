@@ -45,6 +45,19 @@
         "cstdbool": "c",
         "cstdint": "c",
         "typeinfo": "c",
-        "ntfs.h": "c"
+        "ntfs.h": "c",
+        "stdint.h": "c",
+        "ntfsdir.h": "c",
+        "cache.h": "c",
+        "ntfsfile.h": "c",
+        "ntfsinternal.h": "c",
+        "time64.h": "c",
+        "errno.h": "c",
+        "gctypes.h": "c",
+        "features.h": "c",
+        "stdio.h": "c",
+        "atad.h": "c",
+        "bdm.h": "c",
+        "irx.h": "c"
     }
 }

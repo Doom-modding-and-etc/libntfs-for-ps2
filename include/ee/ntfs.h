@@ -27,6 +27,7 @@
 extern "C" {
 #endif
 
+#include <bdm.h>
 #include <stdio.h>
 #include <stdbool.h>
 
@@ -52,25 +53,21 @@ extern "C" {
 #define NTFS_SU                         NTFS_SHOW_HIDDEN_FILES | NTFS_SHOW_SYSTEM_FILES
 #define NTFS_FORCE                      NTFS_RECOVER | NTFS_IGNORE_HIBERFILE
 
-int sectorSize = 4096;
+#define MAX_SECTOR_SIZE     4096
 unsigned int interface;
 
 
 /**
  * bdmntfs_md - Block device manager ntfs mount descriptor
  */
-struct block_device_manager;
 
-struct bdm_ntfs_mdblock 
-{
-    char name[32];                      /* Mount name (can be accessed as "mass0:/", hdd0: or else) */
-    struct block_device* interface;    /* Block device containing the mounted partition */
-    int startSector;                  /* Local block address to first sector of partition */
-    const bool stopSectors;
-    struct block_device_manager **ntfspartitions;  
-    struct block_device_manager   *bd;
-    int **mounts;
-};
+typedef struct _ntfs_md {
+    char name[32];                      /* Mount name (can be accessed as "name:/") */
+    const DISC_INTERFACE *interface;    /* Block device containing the mounted partition */
+    sec_t startSector;                  /* Local block address to first sector of partition */
+} ntfs_md;
+
+void bdmntfsInit(void);
 
 /**
  * Find all NTFS partitions on a block device.
@@ -81,8 +78,7 @@ struct bdm_ntfs_mdblock
  * @return The number of entries in PARTITIONS or -1 if an error occurred (see errno)
  * @note The caller is responsible for freeing PARTITIONS when finished with it
  */
-extern int bdmntfsFindPartitions(struct bdm_ntfs_mdblock *interface, struct bdm_ntfs_mdblock *bd, struct bdm_ntfs_mdblock **ntfspartitions);
-
+extern bdmntfsFindPartitions(const DISC_INTERFACE *interface, sec_t **partitions);
 /**
  * Mount all NTFS partitions on all inserted block devices.
  *
@@ -93,7 +89,7 @@ extern int bdmntfsFindPartitions(struct bdm_ntfs_mdblock *interface, struct bdm_
  * @note The caller is responsible for freeing MOUNTS when finished with it
  * @note All device caches are setup using default values (see above)
  */
-extern int bdmntfsMountAll(struct bdm_ntfs_mdblock **mounts, u32 flags);
+extern int bdmntfsMountAll(ntfs_md **mounts, u32 flags);
 
 /**
  * Mount all NTFS partitions on a block devices.
@@ -106,7 +102,7 @@ extern int bdmntfsMountAll(struct bdm_ntfs_mdblock **mounts, u32 flags);
  * @note The caller is responsible for freeing MOUNTS when finished with it
  * @note The device cache is setup using default values (see above)
  */
-extern int bdmntfsMountDevice(struct bdm_ntfs_mdblock* interface, struct bdm_ntfs_mdblock **mounts, u32 flags);
+int bdmntfsMountDevice(const DISC_INTERFACE *interface, ntfs_md **mounts, u32 flags);
 
 /**
  * Mount a NTFS partition from a specific sector on a block device.
@@ -121,7 +117,8 @@ extern int bdmntfsMountDevice(struct bdm_ntfs_mdblock* interface, struct bdm_ntf
  * @return True if mount was successful, false if no partition was found or an error occurred (see errno)
  * @note ntfsFindPartitions should be used first to locate the partitions start sector
  */
-extern bool bdmntfsMount(const char *name, struct bdm_ntfs_mdblock *interface, u32 startSector, u32 cachePageCount, u32 cachePageSize, u32 flags);
+extern bool bdmntfsMount(const char *name, const DISC_INTERFACE *interface, sec_t startSector, u32 cachePageCount, u32 cachePageSize, u32 flags);
+;
 
 /**
  * Unmount a NTFS partition.

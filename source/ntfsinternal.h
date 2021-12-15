@@ -39,11 +39,12 @@
 #include "security.h"
 #include "efs.h"
 #include "unistr.h"
-
-#include <gccore.h>
-#include <ogc/disc_io.h>
-#include <sys/iosupport.h>
-
+#include "gctypes.h"
+//#include <gccore.h>
+//#include <ogc/disc_io.h>
+//#include <sys/iosupport.h>
+#include <string.h>
+#include <bdm.h>
 #define NTFS_MOUNT_PREFIX                   "ntfs" /* Device name prefix to use when auto-mounting */
 #define NTFS_MAX_PARTITIONS                 32 /* Maximum number of partitions that can be found */
 #define NTFS_MAX_MOUNTS                     10 /* Maximum number of mounts available at one time */
@@ -65,7 +66,10 @@
 /* Forward declarations */
 struct _ntfs_file_state;
 struct _ntfs_dir_state;
-
+typedef struct {
+    int device;
+    void *dirStruct;
+} DIR_ITER;
 /**
  * PRIMARY_PARTITION - Block device partition record
  */
@@ -138,6 +142,45 @@ typedef struct _ntfs_vd {
     u16 openFileCount;                      /* The total number of files currently open in this volume */
 } ntfs_vd;
 
+typedef struct {
+	const char *name;
+	int	structSize;
+	int (*open_r)(struct _reent *r, void *fileStruct, const char *path, int flags, int mode);
+	int (*close_r)(struct _reent *r, int fd);
+	ssize_t (*write_r)(struct _reent *r, int fd, const char *ptr, size_t len);
+	ssize_t (*read_r)(struct _reent *r, int fd, char *ptr, size_t len);
+	off_t (*seek_r)(struct _reent *r, int fd, off_t pos, int dir);
+	int (*fstat_r)(struct _reent *r, int fd, struct stat *st);
+	int (*stat_r)(struct _reent *r, const char *file, struct stat *st);
+	int (*link_r)(struct _reent *r, const char *existing, const char  *newLink);
+	int (*unlink_r)(struct _reent *r, const char *name);
+	int (*chdir_r)(struct _reent *r, const char *name);
+	int (*rename_r) (struct _reent *r, const char *oldName, const char *newName);
+	int (*mkdir_r) (struct _reent *r, const char *path, int mode);
+		
+	int dirStateSize;
+	
+	DIR_ITER* (*diropen_r)(struct _reent *r, DIR_ITER *dirState, const char *path);
+	int (*dirreset_r)(struct _reent *r, DIR_ITER *dirState);
+	int (*dirnext_r)(struct _reent *r, DIR_ITER *dirState, char *filename, struct stat *filestat);
+	int (*dirclose_r)(struct _reent *r, DIR_ITER *dirState);
+	int (*statvfs_r)(struct _reent *r, const char *path, struct statvfs *buf);
+	int (*ftruncate_r)(struct _reent *r, int fd, off_t len);
+	int (*fsync_r)(struct _reent *r, int fd);
+
+	void *deviceData;
+
+	int (*chmod_r)(struct _reent *r, const char *path, mode_t mode);
+	int (*fchmod_r)(struct _reent *r, int fd, mode_t mode);
+
+} devoptab_t;
+extern const devoptab_t *devoptab_list[];
+enum	{
+	STD_IN,
+	STD_OUT,
+	STD_ERR,
+	STD_MAX = 16
+};
 /* Lock volume */
 static inline void ntfsLock (ntfs_vd *vd)
 {
@@ -156,6 +199,7 @@ void ntfsRemoveDevice (const char *path);
 const devoptab_t *ntfsGetDevice (const char *path, bool useDefaultDevice);
 const devoptab_t *ntfsGetDevOpTab (void);
 const INTERFACE_ID* ntfsGetDiscInterfaces (void);
+const INTERFACE_ID* ntfs_disc_interfaces(void);
 
 /* Miscellaneous helper/support routines */
 int ntfsInitVolume (ntfs_vd *vd);

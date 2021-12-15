@@ -5,18 +5,20 @@ IOP_LIB = libntfs.a
 
 EE_LIB = libntfs.a
 
-IOP_CFLAGS += -Wall -Os -I../include -I../include/
+IOP_CFLAGS += -Wall -Os -I../include -I../include/ -std=c99
 
 EE_CFLAGS += -Wall -Os -I../include -I../include/
 
 IOP_OBJS = source/acls.o source/atrrib.o source/attrlist.o \
 source/bdmdriver.o source/bitmap.o source/bootsect.o \
-source/cache.o source/cache2.o source/collate.o source/compat.o source/compress.o \
-source/debug.o source/device_io.o source/device.o\
-source/ea.o source/efs.o source/inode.o source/lcnalloc.o \
-source/logfile.o source/logfile.o \
+source/cache.o source/collate.o source/compat.o source/compress.o \
+source/debug.o source/device_io.o source/device.o \
+source/ea.o source/efs.o \
+source/lcnalloc.o source/logfile.o source/logging.o \
 source/mft.o source/misc.o source/mst.o \
-source/object_id.o source/realpath.o source/reparse.o source/runlist.o \
+source/ntfs.o source/ntfsfile.o source/ntfsdir.o source/ntfsinternal.o \
+source/object_id.o \
+source/realpath.o source/reparse.o source/runlist.o \
 source/unistr.o source/volume.o source/xattrs.o \
 
 #Solve these EE side: source/bdmdriver.o source/cache2.o source/misc.o source/realpath.o source/reparse.o source/runlist.o source/unistr.o

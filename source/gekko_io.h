@@ -27,30 +27,16 @@
 
 #include "types.h"
 #include "cache2.h"
-
-#ifndef PS3_GEKKO
-
-#include "ntfs.h"
-#else
-#include "ntfs.h"
-
-#endif
+//#include <gccore.h>
+//#include <ogc/disc_io.h>
 
 #define MAX_SECTOR_SIZE     4096
-typedef long long	ext2_loff_t;
-
-struct struct_io_stats {
-	int			num_fields;
-	int			reserved;
-	unsigned long long	bytes_read;
-	unsigned long long	bytes_written;
-};
 
 /**
  * gekko_fd - Gekko device driver descriptor
  */
 typedef struct _gekko_fd {
-    const INTERFACE_BDM* interface;        /* Device disc interface */
+    const DISC_INTERFACE* interface;        /* Device disc interface */
     sec_t startSector;                      /* LBA of partition start */
     sec_t hiddenSectors;                    /* LBA offset to true partition start (as described by boot sector) */
     u16 sectorSize;                         /* Device sector size (in bytes) */
@@ -61,11 +47,6 @@ typedef struct _gekko_fd {
     NTFS_CACHE *cache;                      /* Cache */
     u32 cachePageCount;                     /* The number of pages in the cache */
     u32 cachePageSize;                      /* The number of sectors per cache page */
-    
-    int	flags;
-    int	access_time;
-    ext2_loff_t offset;
-	struct struct_io_stats io_stats;
 } gekko_fd;
 
 /* Forward declarations */

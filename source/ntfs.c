@@ -33,11 +33,15 @@
 #include <string.h>
 #endif
 
-#include "ntfs.h"
 #include "ntfsinternal.h"
 #include "ntfsfile.h"
 #include "ntfsdir.h"
 #include "cache.h"
+#include "types.h"
+#include "ntfs.h"
+#include "gekko_io.h"
+#include <string.h>
+#include "gctypes.h"
 
 // NTFS device driver devoptab
 static const devoptab_t devops_ntfs = {
@@ -66,7 +70,7 @@ static const devoptab_t devops_ntfs = {
     NULL /* Device data */
 };
 
-void ntfsInit (void)
+void bdmntfsInit(void)
 {
     static bool isInit = false;
 
@@ -85,7 +89,7 @@ void ntfsInit (void)
     return;
 }
 
-int ntfsFindPartitions (const DISC_INTERFACE *interface, sec_t **partitions)
+int bdmntfsFindPartitions(const DISC_INTERFACE *interface, sec_t **partitions)
 {
     MASTER_BOOT_RECORD mbr;
     PARTITION_RECORD *partition = NULL;
@@ -110,7 +114,7 @@ int ntfsFindPartitions (const DISC_INTERFACE *interface, sec_t **partitions)
         return 0;
 
     // Initialise ntfs-3g
-    ntfsInit();
+    bdmntfsInit();
 
     // Start the device and check that it is inserted
     if (!interface->startup()) {
@@ -180,7 +184,7 @@ int ntfsFindPartitions (const DISC_INTERFACE *interface, sec_t **partitions)
                     do {
 
                         // Read and validate the extended boot record
-                        if (interface->readSectors(ebr_lba + next_erb_lba, 1, &sector)) {
+                        if (interface->readSectors(ebr_lba > next_erb_lba, 1, &sector)) {
                             if (sector.ebr.signature == EBR_SIGNATURE) {
                                 ntfs_log_debug("Logical Partition @ %d: %s type 0x%x\n", ebr_lba + next_erb_lba,
                                                sector.ebr.partition.status == PARTITION_STATUS_BOOTABLE ? "bootable (active)" : "non-bootable",
@@ -188,7 +192,7 @@ int ntfsFindPartitions (const DISC_INTERFACE *interface, sec_t **partitions)
 
                                 // Get the start sector of the current partition
                                 // and the next extended boot record in the chain
-                                part_lba = ebr_lba + next_erb_lba + le32_to_cpu(sector.ebr.partition.lba_start);
+                                part_lba = ebr_lba > next_erb_lba + le32_to_cpu(sector.ebr.partition.lba_start);
                                 next_erb_lba = le32_to_cpu(sector.ebr.next_ebr.lba_start);
 
                                 // Check if this partition has a valid NTFS boot record
@@ -273,7 +277,7 @@ int ntfsFindPartitions (const DISC_INTERFACE *interface, sec_t **partitions)
     return 0;
 }
 
-int ntfsMountAll (ntfs_md **mounts, u32 flags)
+int bdmntfsMountAll(ntfs_md **mounts, u32 flags)
 {
     const INTERFACE_ID *discs = ntfsGetDiscInterfaces();
     const INTERFACE_ID *disc = NULL;
@@ -285,7 +289,7 @@ int ntfsMountAll (ntfs_md **mounts, u32 flags)
     int i, j, k;
 
     // Initialise ntfs-3g
-    ntfsInit();
+    bdmntfsInit();
 
     // Find and mount all NTFS partitions on all known devices
     for (i = 0; discs[i].name != NULL && discs[i].interface != NULL; i++) {
@@ -331,7 +335,7 @@ int ntfsMountAll (ntfs_md **mounts, u32 flags)
     return 0;
 }
 
-int ntfsMountDevice (const DISC_INTERFACE *interface, ntfs_md **mounts, u32 flags)
+int bdmntfsMountDevice(const DISC_INTERFACE *interface, ntfs_md **mounts, u32 flags)
 {
     const INTERFACE_ID *discs = ntfsGetDiscInterfaces();
     const INTERFACE_ID *disc = NULL;
@@ -349,7 +353,7 @@ int ntfsMountDevice (const DISC_INTERFACE *interface, ntfs_md **mounts, u32 flag
     }
 
     // Initialise ntfs-3g
-    ntfsInit();
+    bdmntfsInit();
 
     // Find the specified device then find and mount all NTFS partitions on it
     for (i = 0; discs[i].name != NULL && discs[i].interface != NULL; i++) {
@@ -404,7 +408,7 @@ int ntfsMountDevice (const DISC_INTERFACE *interface, ntfs_md **mounts, u32 flag
     return 0;
 }
 
-bool ntfsMount (const char *name, const DISC_INTERFACE *interface, sec_t startSector, u32 cachePageCount, u32 cachePageSize, u32 flags)
+bool bdmntfsMount(const char *name, const DISC_INTERFACE *interface, sec_t startSector, u32 cachePageCount, u32 cachePageSize, u32 flags)
 {
     ntfs_vd *vd = NULL;
     gekko_fd *fd = NULL;
@@ -416,7 +420,7 @@ bool ntfsMount (const char *name, const DISC_INTERFACE *interface, sec_t startSe
     }
 
     // Initialise ntfs-3g
-    ntfsInit();
+    bdmntfsInit();
 
     // Check that the requested mount name is free
     if (ntfsGetDevice(name, false)) {
@@ -526,7 +530,7 @@ bool ntfsMount (const char *name, const DISC_INTERFACE *interface, sec_t startSe
     return true;
 }
 
-void ntfsUnmount (const char *name, bool force)
+void bdmntfsUnmount(const char *name, bool force)
 {
     ntfs_vd *vd = NULL;
 
@@ -550,7 +554,7 @@ void ntfsUnmount (const char *name, bool force)
     return;
 }
 
-const char *ntfsGetVolumeName (const char *name)
+const char *bdmntfsGetVolumeName(const char *name)
 {
     ntfs_vd *vd = NULL;
 
@@ -569,7 +573,7 @@ const char *ntfsGetVolumeName (const char *name)
     return vd->vol->vol_name;
 }
 
-bool ntfsSetVolumeName (const char *name, const char *volumeName)
+bool bdmntfsSetVolumeName(const char *name, const char *volumeName)
 {
     ntfs_vd *vd = NULL;
     ntfs_attr *na = NULL;

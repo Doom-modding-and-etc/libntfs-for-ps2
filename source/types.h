@@ -46,8 +46,54 @@
 #define S_ISUID  0004000
 #define S_ISGID  0002000
 #define S_ISVTX  0001000
-#define SEEK_SET 0
+# define SEEK_SET	0	/* Seek from beginning of file.  */
+# define SEEK_CUR	1	/* Seek from current position.  */
+# define SEEK_END	2	/* Seek from end of file.  */
+#define O_WRONLY	00000001
 #define O_RDONLY 00
+#define STATUS_OK				(0)
+#define STATUS_ERROR				(-1)
+#define STATUS_RESIDENT_ATTRIBUTE_FILLED_MFT	(-2)
+#define STATUS_KEEP_SEARCHING			(-3)
+#define STATUS_NOT_FOUND			(-4)
+#define	EPERM		 1	/* Operation not permitted */
+#define	ENOENT		 2	/* No such file or directory */
+#define	ESRCH		 3	/* No such process */
+#define	EINTR		 4	/* Interrupted system call */
+#define	EIO		 5	/* I/O error */
+#define	ENXIO		 6	/* No such device or address */
+#define	E2BIG		 7	/* Argument list too long */
+#define	ENOEXEC		 8	/* Exec format error */
+#define	EBADF		 9	/* Bad file number */
+#define	ECHILD		10	/* No child processes */
+#define	EAGAIN		11	/* Try again */
+#define	ENOMEM		12	/* Out of memory */
+#define	EACCES		13	/* Permission denied */
+#define	EFAULT		14	/* Bad address */
+#define	ENOTBLK		15	/* Block device required */
+#define	EBUSY		16	/* Device or resource busy */
+#define	EEXIST		17	/* File exists */
+#define	EXDEV		18	/* Cross-device link */
+#define	ENODEV		19	/* No such device */
+#define	ENOTDIR		20	/* Not a directory */
+#define	EISDIR		21	/* Is a directory */
+#define	EINVAL		22	/* Invalid argument */
+#define	ENFILE		23	/* File table overflow */
+#define	EMFILE		24	/* Too many open files */
+#define	ENOTTY		25	/* Not a typewriter */
+#define	ETXTBSY		26	/* Text file busy */
+#define	EFBIG		27	/* File too large */
+#define	ENOSPC		28	/* No space left on device */
+#define	ESPIPE		29	/* Illegal seek */
+#define	EROFS		30	/* Read-only file system */
+#define	EMLINK		31	/* Too many links */
+#define	EPIPE		32	/* Broken pipe */
+#define	EDOM		33	/* Math argument out of domain of func */
+#define	ERANGE		34	/* Math result not representable */
+#define O_TRUNC        0x0400
+#define O_CREAT        0x0200
+#define O_APPEND       0x0100
+#define ST_RDONLY
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
@@ -71,20 +117,21 @@ typedef unsigned int time_t;
 typedef unsigned long off_t;
 typedef unsigned int __uid_t;
 typedef unsigned int __gid_t;
+typedef unsigned long __fsblkcnt_t;
+typedef unsigned long __fsfilcnt_t;
 typedef uint8_t  u8;			/* Unsigned types of an exact size */
 typedef uint16_t u16;
 typedef uint32_t u32;
 typedef uint64_t u64;
-
+typedef long __ssize_t;
+typedef __ssize_t ssize_t;
 typedef int8_t  s8;			/* Signed types of an exact size */
 typedef int16_t s16;
 typedef int32_t s32;
 typedef int64_t s64;
-
 typedef u16 le16;
 typedef u32 le32;
 typedef u64 le64;
-
 typedef u16 be16;
 typedef u32 be32;
 typedef u64 be64;
@@ -96,11 +143,9 @@ typedef u64 be64;
 typedef u16 sle16;
 typedef u32 sle32;
 typedef u64 sle64;
-
 typedef u16 sbe16;
 typedef u32 sbe32;
 typedef u64 sbe64;
-
 typedef le16 ntfschar;			/* 2-byte Unicode character type. */
 #define UCHAR_T_SIZE_BITS 1
 
@@ -159,12 +204,6 @@ typedef enum {
 	IGNORE_CASE = 1,
 } IGNORE_CASE_BOOL;
 
-#define STATUS_OK				(0)
-#define STATUS_ERROR				(-1)
-#define STATUS_RESIDENT_ATTRIBUTE_FILLED_MFT	(-2)
-#define STATUS_KEEP_SEARCHING			(-3)
-#define STATUS_NOT_FOUND			(-4)
-
 /*
  *	Force alignment in a struct if required by processor
  */
@@ -185,7 +224,6 @@ struct passwd
   char *pw_dir;			/* Home directory.  */
   char *pw_shell;		/* Shell program.  */
 };
-
 struct group
 {
  char *gr_name;		/* Group name.	*/
@@ -193,6 +231,72 @@ struct group
  __gid_t gr_gid;		/* Group ID.	*/
  char **gr_mem;		/* Member list.	*/
 };
+#ifndef __FILE_defined
+#define __FILE_defined 1
+struct _IO_FILE;
+struct _reent 
+{
+  int _errno;
+};
+struct statvfs
+  {
+    unsigned long int f_bsize;
+    unsigned long int f_frsize;
+#ifndef __USE_FILE_OFFSET64
+    __fsblkcnt_t f_blocks;
+    __fsblkcnt_t f_bfree;
+    __fsblkcnt_t f_bavail;
+    __fsfilcnt_t f_files;
+    __fsfilcnt_t f_ffree;
+    __fsfilcnt_t f_favail;
+#else
+    __fsblkcnt64_t f_blocks;
+    __fsblkcnt64_t f_bfree;
+    __fsblkcnt64_t f_bavail;
+    __fsfilcnt64_t f_files;
+    __fsfilcnt64_t f_ffree;
+    __fsfilcnt64_t f_favail;
+#endif
+    unsigned long int f_fsid;
+#ifdef _STATVFSBUF_F_UNUSED
+    int __f_unused;
+#endif
+    unsigned long int f_flag;
+    unsigned long int f_namemax;
+    int __f_spare[6];
+  };
+
+#ifdef __USE_LARGEFILE64
+struct statvfs64
+  {
+    unsigned long int f_bsize;
+    unsigned long int f_frsize;
+    __fsblkcnt64_t f_blocks;
+    __fsblkcnt64_t f_bfree;
+    __fsblkcnt64_t f_bavail;
+    __fsfilcnt64_t f_files;
+    __fsfilcnt64_t f_ffree;
+    __fsfilcnt64_t f_favail;
+    unsigned long int f_fsid;
+#ifdef _STATVFSBUF_F_UNUSED
+    int __f_unused;
+#endif
+    unsigned long int f_flag;
+    unsigned long int f_namemax;
+    int __f_spare[6];
+  };
+#endif
+/* The opaque type of streams.  This is the definition used elsewhere.  */
+typedef struct _IO_FILE FILE;
+/* Standard streams.  */
+extern FILE *stdin;		/* Standard input stream.  */
+extern FILE *stdout;		/* Standard output stream.  */
+extern FILE *stderr;		/* Standard error output stream.  */
+/* C89/C99 say they're macros.  Make them happy.  */
+#define stdin stdin
+#define stdout stdout
+#define stderr stderr
+#endif
 
 #endif /* defined _NTFS_TYPES_H */
 

@@ -43,7 +43,7 @@
 #include "ntfsinternal.h"
 #include "ntfsdir.h"
 #include "device.h"
-#include <sys/dir.h>
+//#include <sys/dir.h>
 
 #define STATE(x)    ((ntfs_dir_state*)(x)->dirStruct)
 

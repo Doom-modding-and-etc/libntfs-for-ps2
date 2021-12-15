@@ -47,7 +47,7 @@
 #include "bitmap.h"
 #include "reparse.h"
 #include "misc.h"
-
+#include "layout.h"
 /**
  * ntfs_index_entry_mark_dirty - mark an index entry dirty
  * @ictx:	ntfs index context describing the index entry

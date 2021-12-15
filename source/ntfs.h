@@ -30,7 +30,7 @@ extern "C" {
 #include <bdm.h>
 #include <stdio.h>
 #include <stdbool.h>
-
+#include "gctypes.h"
 /* NTFS errno values */
 #define ENOPART                         3000 /* No partition was found */
 #define EINVALPART                      3001 /* Specified partition is invalid or not supported */
@@ -66,8 +66,6 @@ typedef struct _ntfs_md {
     const DISC_INTERFACE *interface;    /* Block device containing the mounted partition */
     sec_t startSector;                  /* Local block address to first sector of partition */
 } ntfs_md;
-
-void bdmntfsInit(void);
 
 /**
  * Find all NTFS partitions on a block device.
