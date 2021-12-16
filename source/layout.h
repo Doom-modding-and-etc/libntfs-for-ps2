@@ -2087,7 +2087,7 @@ typedef struct {
 /*  4*/	le32 index_length;	/* Data size in byte of the INDEX_ENTRY's,
 				   including the INDEX_HEADER, aligned to 8. */
 /*  8*/	le32 allocated_size;	/* Allocated byte size of this index (block),
-				   multiple of 8 bytes. See more below.      */
+								   multiple of 8 bytes. See more below.      */
 	/* 
 	   For the index root attribute, the above two numbers are always
 	   equal, as the attribute is resident and it is resized as needed.
@@ -2135,9 +2135,12 @@ typedef struct {
 					   the index allocation attribute), when
 					   an index block is >= than a cluster,
 					   otherwise sectors per index block. */
-/* 13*/	u8 reserved[3];			/* Reserved/align to 8-byte boundary. */
-/* 16*/	INDEX_HEADER index;		/* Index header describing the
-					   following index entries. */
+        u32 __builtin_index;
+
+/* 13*/	u8 reserved[3];			/* Reserved/align to 8-byte boundary. */	/* Index header describing the
+		    					    following index entries. */
+
+
 /* sizeof()= 32 bytes */
 } __attribute__((__packed__)) INDEX_ROOT;
 
@@ -2161,6 +2164,7 @@ typedef struct {
 /* 16*/	leVCN index_block_vcn;	/* Virtual cluster number of the index block. */
 /* 24*/	INDEX_HEADER index;	/* Describes the following index entries. */
 /* sizeof()= 40 (0x28) bytes */
+
 /*
  * When creating the index block, we place the update sequence array at this
  * offset, i.e. before we start with the index entries. This also makes sense,

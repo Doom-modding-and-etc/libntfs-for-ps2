@@ -58,6 +58,7 @@
         "stdio.h": "c",
         "atad.h": "c",
         "bdm.h": "c",
-        "irx.h": "c"
+        "irx.h": "c",
+        "sysclib.h": "c"
     }
 }

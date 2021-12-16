@@ -61,7 +61,8 @@ unsigned int interface;
  * bdmntfs_md - Block device manager ntfs mount descriptor
  */
 
-typedef struct _ntfs_md {
+typedef struct _ntfs_md 
+{
     char name[32];                      /* Mount name (can be accessed as "name:/") */
     const DISC_INTERFACE *interface;    /* Block device containing the mounted partition */
     sec_t startSector;                  /* Local block address to first sector of partition */

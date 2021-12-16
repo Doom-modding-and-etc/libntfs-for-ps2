@@ -37,9 +37,17 @@
 #include "ntfsinternal.h"
 #include "ntfsdir.h"
 #include "ntfsfile.h"
-#include "gctypes.h"
+#include "gctypes.h"]
 //#include <atad.h> soon
-#if defined(__wii__)
+
+#if defined(__Playstation2__)
+const INTERFACE_ID ntfs_disc_interfaces[] = 
+{
+  {"mass0:"}, &__io_ps2usb},
+  {NULL, NULL};
+}
+
+#elif defined(__wii__)
 #include <sdcard/wiisd_io.h>
 #include <sdcard/gcsd.h>
 #include <ogc/usbstorage.h>
@@ -63,7 +71,7 @@ const INTERFACE_ID ntfs_disc_interfaces[] = {
 
 #endif
 
-int ntfsAddDevice (const char *name, void *deviceData)
+int ntfsAddDevice(const char *name, void *deviceData)
 {
     const devoptab_t *devoptab_ntfs = ntfsGetDevOpTab();
     devoptab_t *dev = NULL;
@@ -105,7 +113,7 @@ int ntfsAddDevice (const char *name, void *deviceData)
     return -1;
 }
 
-void ntfsRemoveDevice (const char *path)
+void ntfsRemoveDevice(const char *path)
 {
     const devoptab_t *devoptab = NULL;
     char name[128] = {0};
@@ -259,12 +267,12 @@ void ntfsDeinitVolume(ntfs_vd *vd)
     return;
 }
 
-ntfs_inode *ntfsOpenEntry (ntfs_vd *vd, const char *path)
+ntfs_inode *ntfsOpenEntry(ntfs_vd *vd, const char *path)
 {
     return ntfsParseEntry(vd, path, 1);
 }
 
-ntfs_inode *ntfsParseEntry (ntfs_vd *vd, const char *path, int reparseLevel)
+ntfs_inode *ntfsParseEntry(ntfs_vd *vd, const char *path, int reparseLevel)
 {
     ntfs_inode *ni = NULL;
     char *target = NULL;
@@ -326,7 +334,7 @@ ntfs_inode *ntfsParseEntry (ntfs_vd *vd, const char *path, int reparseLevel)
     return ni;
 }
 
-void ntfsCloseEntry (ntfs_vd *vd, ntfs_inode *ni)
+void ntfsCloseEntry(ntfs_vd *vd, ntfs_inode *ni)
 {
     // Sanity check
     if (!vd) {
@@ -351,7 +359,7 @@ void ntfsCloseEntry (ntfs_vd *vd, ntfs_inode *ni)
 }
 
 
-ntfs_inode *ntfsCreate (ntfs_vd *vd, const char *path, mode_t type, const char *target)
+ntfs_inode *ntfsCreate(ntfs_vd *vd, const char *path, mode_t type, const char *target)
 {
     ntfs_inode *dir_ni = NULL, *ni = NULL;
     char *dir = NULL;
@@ -477,7 +485,7 @@ cleanup:
     return ni;
 }
 
-int ntfsLink (ntfs_vd *vd, const char *old_path, const char *new_path)
+int ntfsLink(ntfs_vd *vd, const char *old_path, const char *new_path)
 {
     ntfs_inode *dir_ni = NULL, *ni = NULL;
     char *dir = NULL;
@@ -577,7 +585,7 @@ cleanup:
     return res;
 }
 
-int ntfsUnlink (ntfs_vd *vd, const char *path)
+int ntfsUnlink(ntfs_vd *vd, const char *path)
 {
     ntfs_inode *dir_ni = NULL, *ni = NULL;
     char *dir = NULL;
@@ -674,7 +682,7 @@ cleanup:
     return res;
 }
 
-int ntfsSync (ntfs_vd *vd, ntfs_inode *ni)
+int ntfsSync(ntfs_vd *vd, ntfs_inode *ni)
 {
     int res = 0;
 
@@ -706,7 +714,7 @@ int ntfsSync (ntfs_vd *vd, ntfs_inode *ni)
 
 }
 
-int ntfsStat (ntfs_vd *vd, ntfs_inode *ni, struct stat *st)
+int ntfsStat(ntfs_vd *vd, ntfs_inode *ni, struct stat *st)
 {
     ntfs_attr *na = NULL;
     int res = 0;
@@ -772,7 +780,7 @@ int ntfsStat (ntfs_vd *vd, ntfs_inode *ni, struct stat *st)
     return res;
 }
 
-void ntfsUpdateTimes (ntfs_vd *vd, ntfs_inode *ni, ntfs_time_update_flags mask)
+void ntfsUpdateTimes(ntfs_vd *vd, ntfs_inode *ni, ntfs_time_update_flags mask)
 {
     // Run the access time update strategy against the device driver settings first
     if (vd && vd->atime == ATIME_DISABLED)
@@ -785,7 +793,7 @@ void ntfsUpdateTimes (ntfs_vd *vd, ntfs_inode *ni, ntfs_time_update_flags mask)
     return;
 }
 
-const char *ntfsRealPath (const char *path)
+const char *ntfsRealPath(const char *path)
 {
     // Sanity check
     if (!path)
@@ -802,7 +810,7 @@ const char *ntfsRealPath (const char *path)
     return path;
 }
 
-int ntfsUnicodeToLocal (const ntfschar *ins, const int ins_len, char **outs, int outs_len)
+int ntfsUnicodeToLocal(const ntfschar *ins, const int ins_len, char **outs, int outs_len)
 {
     int len = 0;
     int i;
@@ -858,7 +866,7 @@ int ntfsUnicodeToLocal (const ntfschar *ins, const int ins_len, char **outs, int
     return len;
 }
 
-int ntfsLocalToUnicode (const char *ins, ntfschar **outs)
+int ntfsLocalToUnicode(const char *ins, ntfschar **outs)
 {
     // Sanity check
     if (!ins || !outs)

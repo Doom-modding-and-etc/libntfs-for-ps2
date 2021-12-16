@@ -44,7 +44,6 @@
 //#include <ogc/disc_io.h>
 //#include <sys/iosupport.h>
 #include <string.h>
-#include <bdm.h>
 #define NTFS_MOUNT_PREFIX                   "ntfs" /* Device name prefix to use when auto-mounting */
 #define NTFS_MAX_PARTITIONS                 32 /* Maximum number of partitions that can be found */
 #define NTFS_MAX_MOUNTS                     10 /* Maximum number of mounts available at one time */

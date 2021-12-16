@@ -27,7 +27,6 @@
 extern "C" {
 #endif
 
-#include <bdm.h>
 #include <stdio.h>
 #include <stdbool.h>
 

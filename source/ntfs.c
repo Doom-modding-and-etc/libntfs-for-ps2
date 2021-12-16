@@ -42,6 +42,7 @@
 #include "gekko_io.h"
 #include <string.h>
 #include "gctypes.h"
+#include <bdm.h>
 
 // NTFS device driver devoptab
 static const devoptab_t devops_ntfs = {
