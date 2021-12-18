@@ -59,6 +59,10 @@
         "atad.h": "c",
         "bdm.h": "c",
         "irx.h": "c",
-        "sysclib.h": "c"
+        "sysclib.h": "c",
+        "tamtypes.h": "c",
+        "timer.h": "c",
+        "attrib.h": "c",
+        "stdbool.h": "c"
     }
 }

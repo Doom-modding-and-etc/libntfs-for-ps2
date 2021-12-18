@@ -8,6 +8,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <tamtypes.h>
+#include <sys/types.h>
 #include "types.h"
 #ifdef __cplusplus
    extern "C" {
@@ -48,20 +49,14 @@ typedef bool (* FN_MEDIUM_WRITESECTORS)(sec_t sector, sec_t numSectors, const vo
 typedef bool (* FN_MEDIUM_CLEARSTATUS)(void) ;
 typedef bool (* FN_MEDIUM_SHUTDOWN)(void) ;
 //important types
-typedef unsigned long __ino_t;
-typedef __ino_t *ino_t;
 typedef u32 mutex_t;
-typedef mode_t *__mode_t;
-typedef dev_t *__dev_t;
 typedef long __off64_t;
 typedef unsigned long __syscall_ulong_t;
 typedef long __blkcnt64_t;
 typedef long __blkcnt_t;
-typedef unsigned long __nlink_t;
 typedef long __blksize_t;
 struct _reent;
 
-typedef long __time_t;
 typedef unsigned long __ino64_t;
 /*+----------------------------------------------------------------------------------------------+*/
 // alias type typedefs

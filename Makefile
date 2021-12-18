@@ -21,8 +21,20 @@ source/object_id.o \
 source/realpath.o source/reparse.o source/runlist.o \
 source/unistr.o source/volume.o source/xattrs.o \
 
-#Solve these EE side: source/bdmdriver.o source/cache2.o source/misc.o source/realpath.o source/reparse.o source/runlist.o source/unistr.o
-EE_OBJS = source/compat.o source/device_io.o source/mst.o 
+#Solve these EE side: dir.o source/cache2.o source/misc.o source/realpath.o source/reparse.o source/runlist.o source/unistr.o
+EE_OBJS = source/ee/acls.o source/ee/attrlist.o \
+source/ee/bitmap.o source/ee/bootsect.o \
+source/ee/cache.o source/ee/collate.o source/ee/compat.o source/ee/compress.o \
+source/ee/debug.o source/ee/device_io.o source/ee/device.o \
+source/ee/ea.o source/ee/efs.o \
+source/ee/inode.o \
+source/ee/lcnalloc.o source/ee/logfile.o source/ee/logging.o \
+source/ee/mft.o source/ee/misc.o \
+source/ee/object_id.o \
+source/ee/realpath.o source/ee/reparse.o source/ee/runlist.o \
+source/ee/unistr.o \
+source/ee/volume.o \
+source/ee/xattrs.o
 
 IOP: $(IOP_LIB) 
 ifeq ($(PS2DEV),)

@@ -27,10 +27,11 @@
 extern "C" {
 #endif
 
-#include <bdm.h>
 #include <stdio.h>
 #include <stdbool.h>
-
+#include <tamtypes.h>
+#include <sys/_timespec.h>
+#include <sys/types.h>
 /* NTFS errno values */
 #define ENOPART                         3000 /* No partition was found */
 #define EINVALPART                      3001 /* Specified partition is invalid or not supported */
@@ -52,13 +53,32 @@ extern "C" {
 #define NTFS_IGNORE_CASE                0x00000040 /* Ignore case sensitivity. Everything must be and  will be provided in lowercase. */
 #define NTFS_SU                         NTFS_SHOW_HIDDEN_FILES | NTFS_SHOW_SYSTEM_FILES
 #define NTFS_FORCE                      NTFS_RECOVER | NTFS_IGNORE_HIBERFILE
-
 #define MAX_SECTOR_SIZE     4096
+
 unsigned int interface;
+typedef uint32_t *sec_t;
+typedef bool (* FN_MEDIUM_STARTUP)(void) ;
+typedef bool (* FN_MEDIUM_ISINSERTED)(void) ;
+typedef bool (* FN_MEDIUM_READSECTORS)(sec_t sector, sec_t numSectors, void* buffer) ;
+typedef bool (* FN_MEDIUM_WRITESECTORS)(sec_t sector, sec_t numSectors, const void* buffer) ;
+typedef bool (* FN_MEDIUM_CLEARSTATUS)(void) ;
+typedef bool (* FN_MEDIUM_SHUTDOWN)(void) ;
 
 
+struct DISC_INTERFACE_STRUCT {
+	unsigned long			ioType ;
+	unsigned long			features ;
+	FN_MEDIUM_STARTUP		startup ;
+	FN_MEDIUM_ISINSERTED	isInserted ;
+	FN_MEDIUM_READSECTORS	readSectors ;
+	FN_MEDIUM_WRITESECTORS	writeSectors ;
+	FN_MEDIUM_CLEARSTATUS	clearStatus ;
+	FN_MEDIUM_SHUTDOWN		shutdown ;
+} ;
+
+typedef struct DISC_INTERFACE_STRUCT DISC_INTERFACE;
 /**
- * bdmntfs_md - Block device manager ntfs mount descriptor
+ * ntfs_md - usb ntfs mount descriptor
  */
 
 typedef struct _ntfs_md {
@@ -67,7 +87,7 @@ typedef struct _ntfs_md {
     sec_t startSector;                  /* Local block address to first sector of partition */
 } ntfs_md;
 
-void bdmntfsInit(void);
+void ntfsInit(void);
 
 /**
  * Find all NTFS partitions on a block device.
@@ -78,7 +98,7 @@ void bdmntfsInit(void);
  * @return The number of entries in PARTITIONS or -1 if an error occurred (see errno)
  * @note The caller is responsible for freeing PARTITIONS when finished with it
  */
-extern bdmntfsFindPartitions(const DISC_INTERFACE *interface, sec_t **partitions);
+extern int ntfsFindPartitions(const DISC_INTERFACE *interface, sec_t **partitions);
 /**
  * Mount all NTFS partitions on all inserted block devices.
  *
@@ -89,7 +109,7 @@ extern bdmntfsFindPartitions(const DISC_INTERFACE *interface, sec_t **partitions
  * @note The caller is responsible for freeing MOUNTS when finished with it
  * @note All device caches are setup using default values (see above)
  */
-extern int bdmntfsMountAll(ntfs_md **mounts, u32 flags);
+extern int ntfsMountAll(ntfs_md **mounts, u32 flags);
 
 /**
  * Mount all NTFS partitions on a block devices.
@@ -102,7 +122,7 @@ extern int bdmntfsMountAll(ntfs_md **mounts, u32 flags);
  * @note The caller is responsible for freeing MOUNTS when finished with it
  * @note The device cache is setup using default values (see above)
  */
-int bdmntfsMountDevice(const DISC_INTERFACE *interface, ntfs_md **mounts, u32 flags);
+int ntfsMountDevice(const DISC_INTERFACE *interface, ntfs_md **mounts, u32 flags);
 
 /**
  * Mount a NTFS partition from a specific sector on a block device.
@@ -117,7 +137,7 @@ int bdmntfsMountDevice(const DISC_INTERFACE *interface, ntfs_md **mounts, u32 fl
  * @return True if mount was successful, false if no partition was found or an error occurred (see errno)
  * @note ntfsFindPartitions should be used first to locate the partitions start sector
  */
-extern bool bdmntfsMount(const char *name, const DISC_INTERFACE *interface, sec_t startSector, u32 cachePageCount, u32 cachePageSize, u32 flags);
+extern bool ntfsMount(const char *name, const DISC_INTERFACE *interface, sec_t startSector, u32 cachePageCount, u32 cachePageSize, u32 flags);
 ;
 
 /**
@@ -126,7 +146,7 @@ extern bool bdmntfsMount(const char *name, const DISC_INTERFACE *interface, sec_
  * @param NAME The name of mount used in ntfsMountSimple() and ntfsMount()
  * @param FORCE If true unmount even if the device is busy (may lead to data lose)
  */
-extern void bdmntfsUnmount(const char *name, bool force);
+extern void ntfsUnmount(const char *name, bool force);
 
 /**
  * Get the volume name of a mounted NTFS partition.
@@ -135,7 +155,7 @@ extern void bdmntfsUnmount(const char *name, bool force);
  *
  * @return The volumes name if successful or NULL if an error occurred (see errno)
  */
-extern const char *bdmntfsGetVolumeName(const char *name);
+extern const char *ntfsGetVolumeName(const char *name);
 
 /**
  * Set the volume name of a mounted NTFS partition.
@@ -146,7 +166,7 @@ extern const char *bdmntfsGetVolumeName(const char *name);
  * @return True if mount was successful, false if an error occurred (see errno)
  * @note The mount must be write-enabled else this will fail
  */
-extern bool bdmntfsSetVolumeName(const char *name, const char *volumeName);
+extern bool ntfsSetVolumeName(const char *name, const char *volumeName);
 
 /**
  * Chech the fragmentation of the sectors wich is 4096 bytes filesystem.
