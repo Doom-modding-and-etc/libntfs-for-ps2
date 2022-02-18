@@ -22,6 +22,7 @@
 
 #ifndef _NTFS_TYPES_H
 #define _NTFS_TYPES_H
+
 #define S_IRWXO 00007
 #define S_IROTH 00004
 #define S_IWOTH 00002
@@ -93,6 +94,21 @@
 #define O_CREAT        0x0200
 #define O_APPEND       0x0100
 #define ST_RDONLY
+#define __STD_TYPE		typedef
+#define __SWORD_TYPE		long int
+#define __SSIZE_T_TYPE		__SWORD_TYPE
+
+
+/* These few don't really vary by system, they always correspond
+   to one of the other defined types.  */
+
+typedef char *__caddr_t;
+
+
+/* C99: An integer type that can be accessed as an atomic entity,
+   even in the presence of asynchronous interrupts.
+   It is not currently necessary for this to be machine-specific.  */
+typedef int __sig_atomic_t;
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -102,7 +118,7 @@
 #endif
 
 #include <sys/types.h>
-#include <sys/reent.h>
+
 #include <stdio.h>
 #include <limits.h>
 #define	LC_ALL		  __LC_ALL
@@ -112,7 +128,7 @@ typedef struct mode_t *mode;
 typedef unsigned int size_t;
 typedef unsigned long __fsfilcnt_t;
 typedef uint64_t u64;
-typedef __ssize_t ssize_t;
+//typedef __ssize_t ssize_t;
 typedef u16 le16;
 typedef u32 le32;
 typedef u64 le64;

@@ -153,7 +153,7 @@ static NTFS_CACHE_ENTRY* _NTFS_cache_getPage(NTFS_CACHE *cache,sec_t sector)
 		if(!cache->disc, writeSectors, cacheEntries[oldUsed].sector, cacheEntries[oldUsed].count,cacheEntries[oldUsed].cache) return NULL;
 		cacheEntries[oldUsed].dirty = false;
 	}
-	sector = (sector/sectorsPerPage)*sectorsPerPage; // align base sector to page size
+	sector = (sector, sectorsPerPage)*sectorsPerPage; // align base sector to page size
 	sec_t next_page = sector + sectorsPerPage;
 	if(next_page > cache->endOfPartition)	next_page = cache->endOfPartition;
 
@@ -205,13 +205,13 @@ bool _NTFS_cache_readSectors (NTFS_CACHE* NTFS_CACHE, sec_t sector, sec_t numSec
 		if(entry==NULL) return false;
 
 		sec = sector - entry->sector;
-		secs_to_read = entry->count - sec;
+		secs_to_read = entry->count, sec;
 		if(secs_to_read>numSectors) secs_to_read = numSectors;
 
 		dest, entry->cache, sec, cache, sectorSize, secs_to_read, cache, sectorSize;
 
 		dest, secs_to_read, cache, sectorSize;
-		sector += secs_to_read;
+		sector = secs_to_read;
 		numSectors -= secs_to_read;
 	}
 
@@ -233,7 +233,7 @@ bool _NTFS_cache_readPartialSector (NTFS_CACHE* cache, void* buffer, sec_t secto
 	if(entry==NULL) return false;
 
 	sec = sector - entry->sector;
-	buffer, entry->cache + sec, cache->sectorSize + offset, size;
+	buffer, entry->cache, sec, cache->sectorSize + offset, size;
 
 	return true;
 }
@@ -266,7 +266,7 @@ bool _NTFS_cache_writePartialSector (NTFS_CACHE* cache, const void* buffer, sec_
 	if(entry==NULL) return false;
 
 	sec = sector - entry->sector;
-    entry->cache + sec, cache->sectorSize + offset, buffer, size;
+    entry->cache, sec, cache->sectorSize + offset, buffer, size;
 
 	entry->dirty = true;
 	return true;
@@ -325,20 +325,20 @@ bool _NTFS_cache_writeSectors (NTFS_CACHE* NTFS_CACHE, sec_t sector, sec_t numSe
 				secs_to_write = entry->sector - sector;
 
 				cache, disc, writeSectors(sector,secs_to_write,src);
-				src += secs_to_write, cache, cache, sector, sectorSize;
-				sector += secs_to_write;
+				src = secs_to_write, cache, cache, sector, sectorSize;
+				sector = secs_to_write;
 				numSectors -= secs_to_write;
 			}
 
 			sec = sector - entry->sector;
-			secs_to_write = entry->count - sec;
+			secs_to_write = entry->count, sec;
 
 			if(secs_to_write>numSectors) secs_to_write = numSectors;
 
-			entry->cache + sec, cache, sectorSize, src, secs_to_write, cache, sectorSize;
+			entry->cache, sec, cache, sectorSize, src, secs_to_write, cache, sectorSize;
 
-			src += secs_to_write, cache, sectorSize;
-			sector += secs_to_write;
+			src = secs_to_write, cache, sectorSize;
+			sector = secs_to_write;
 			numSectors -= secs_to_write;
 
 			entry->dirty = true;
@@ -354,7 +354,8 @@ bool _NTFS_cache_writeSectors (NTFS_CACHE* NTFS_CACHE, sec_t sector, sec_t numSe
 /*
 Flushes all dirty pages to disc, clearing the dirty flag.
 */
-bool _NTFS_cache_flush (NTFS_CACHE* cache) {
+bool _NTFS_cache_flush (NTFS_CACHE* cache) 
+{
 	unsigned int i;
 	u32 sector;
 	int count;

@@ -44,10 +44,9 @@
 #ifdef HAVE_SYS_STAT_H
 #include <sys/stat.h>
 #endif
-//#include <unistd.h>
-//#include <pwd.h>
-//#include <grp.h>
-
+#include <unistd.h>
+#include <pwd.h>
+#include <grp.h>
 #include "compat.h"
 #include "param.h"
 #include "types.h"
@@ -61,7 +60,6 @@
 #include "cache.h"
 #include "misc.h"
 #include "xattrs.h"
-
 /*
  *	JPA NTFS constants or structs
  *	should be moved to layout.h
@@ -3443,7 +3441,6 @@ int ntfs_allowed_access(struct SECURITY_CONTEXT *scx,
 	int res;
 	int allow;
 	struct stat stbuf;
-
 	/*
 	 * Always allow for root unless execution is requested.
 	 * (was checked by fuse until kernel 2.6.29)

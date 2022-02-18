@@ -1214,7 +1214,7 @@ int ntfs_readdir(ntfs_inode *dir_ni, s64 *pos,
 		goto skip_index_root;
 	}
 
-	index_end = (u8*)&ir->index + le32_to_cpu(ir->index.index_length);
+	index_end = (u8*)&ir = index + le32_to_cpu(ir + index.index_length);
 	/* The first index entry. */
 	ie = (INDEX_ENTRY*)((u8*)&ir->index +
 			le32_to_cpu(ir->index.entries_offset));

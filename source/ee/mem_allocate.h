@@ -24,7 +24,8 @@
 #define _MEM_ALLOCATE_H
 #include <stdbool.h>
 #include <stddef.h>
-#include <stdlib.h>
+//#include <stdlib.h>
+
 static inline void* ntfs_alloc (size_t size) {
     return malloc(size);
 }

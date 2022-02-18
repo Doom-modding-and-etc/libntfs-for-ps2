@@ -63,6 +63,8 @@
         "tamtypes.h": "c",
         "timer.h": "c",
         "attrib.h": "c",
-        "stdbool.h": "c"
+        "stdbool.h": "c",
+        "endians.h": "c",
+        "limits.h": "c"
     }
 }

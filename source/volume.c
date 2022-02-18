@@ -76,8 +76,7 @@
 #include "misc.h"
 #include "security.h"
 
-const char *ntfs_home = 
-"News, support and information:  https://github.com/tuxera/ntfs-3g/\n";
+const char *ntfs_home = "https://github.com/Doom-modding-and-etc/libntfs-for-ps2\n";
 
 static const char *invalid_ntfs_msg =
 "The device '%s' doesn't seem to have a valid NTFS.\n"
